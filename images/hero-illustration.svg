@@ -95,7 +95,7 @@
       <animateTransform attributeName="transform" type="rotate" from="360" to="0" dur="15s" repeatCount="indefinite"/>
     </circle>
     <circle cx="0" cy="0" r="28" fill="#0d0f12" stroke="url(#blueGrad)" stroke-width="2" filter="url(#glow)"/>
-    <text x="0" y="1" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="13" font-weight="700" fill="#4f8ef7" text-anchor="middle" dominant-baseline="middle">SI</text>
+    <text x="0" y="1" font-family="-apple-system, BlinkMacSystemFont, sans-serif" font-size="13" font-weight="700" fill="#4f8ef7" text-anchor="middle" dominant-baseline="middle">FS</text>
     <circle cx="0" cy="0" r="28" fill="none" stroke="#4f8ef7" stroke-width="1" opacity="0">
       <animate attributeName="r" values="28;55" dur="2.5s" repeatCount="indefinite"/>
       <animate attributeName="opacity" values="0.5;0" dur="2.5s" repeatCount="indefinite"/>
