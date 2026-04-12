@@ -1,0 +1,821 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ROI Calculator | Flowstate Solutions</title>
+  <meta name="description" content="Find out how much time and money your business could save by streamlining workflows and automating repetitive tasks.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=Crimson+Pro:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-deep: #060B18;
+      --bg-surface: #0B1221;
+      --bg-card: #111B2E;
+      --bg-card-hover: #162035;
+      --accent-teal: #22D3A7;
+      --accent-cyan: #06B6D4;
+      --accent-blue: #3B82F6;
+      --accent-glow: rgba(34, 211, 167, 0.15);
+      --text-primary: #F1F5F9;
+      --text-secondary: #94A3B8;
+      --text-muted: #64748B;
+      --border-subtle: rgba(148, 163, 184, 0.08);
+      --border-accent: rgba(34, 211, 167, 0.2);
+      --accent-red: #ef4444;
+      --accent-red-glow: rgba(239, 68, 68, 0.12);
+      --font-display: 'Bricolage Grotesque', sans-serif;
+      --font-body: 'Crimson Pro', Georgia, serif;
+      --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+      --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+    body { font-family: var(--font-body); font-weight: 400; font-size: 1.125rem; line-height: 1.7; color: var(--text-secondary); background: var(--bg-deep); overflow-x: hidden; }
+    img { max-width: 100%; display: block; }
+    a { color: inherit; text-decoration: none; }
+    button { font: inherit; cursor: pointer; border: none; background: none; }
+    ::selection { background: rgba(34, 211, 167, 0.3); color: var(--text-primary); }
+
+    .container { width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
+    section { position: relative; padding: 8rem 0; }
+
+    .reveal { opacity: 0; transform: translateY(40px); transition: opacity 0.9s var(--ease-out-expo), transform 0.9s var(--ease-out-expo); }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+    .reveal-delay-4 { transition-delay: 0.4s; }
+
+    /* NAV */
+    .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 1.25rem 0; transition: background 0.4s ease, backdrop-filter 0.4s ease, padding 0.4s ease; }
+    .nav.scrolled { background: rgba(6, 11, 24, 0.85); backdrop-filter: blur(20px) saturate(1.2); -webkit-backdrop-filter: blur(20px) saturate(1.2); padding: 0.75rem 0; border-bottom: 1px solid var(--border-subtle); }
+    .nav__inner { display: flex; align-items: center; justify-content: space-between; }
+    .nav__logo { font-family: var(--font-display); font-weight: 700; font-size: 1.35rem; color: var(--text-primary); letter-spacing: -0.02em; display: flex; align-items: center; gap: 0.6rem; }
+    .nav__logo-mark { width: 32px; height: 32px; border-radius: 8px; background: linear-gradient(135deg, var(--accent-teal), var(--accent-cyan)); display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
+    .nav__logo-mark::after { content: ''; position: absolute; width: 18px; height: 18px; border: 2.5px solid rgba(255,255,255,0.9); border-radius: 50%; clip-path: polygon(0 0, 100% 0, 100% 60%, 0 60%); transform: rotate(-20deg); top: 5px; left: 7px; }
+    .nav__links { display: flex; align-items: center; gap: 2.5rem; list-style: none; }
+    .nav__link { font-family: var(--font-display); font-size: 0.875rem; font-weight: 500; color: var(--text-secondary); letter-spacing: 0.01em; transition: color 0.3s ease; position: relative; }
+    .nav__link::after { content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 1.5px; background: var(--accent-teal); transition: width 0.3s var(--ease-out-expo); }
+    .nav__link:hover { color: var(--text-primary); }
+    .nav__link:hover::after { width: 100%; }
+    .nav__link--active { color: var(--accent-teal); }
+    .nav__link--active::after { width: 100%; }
+    .nav__cta { font-family: var(--font-display); font-size: 0.85rem; font-weight: 600; color: var(--bg-deep); background: linear-gradient(135deg, var(--accent-teal), var(--accent-cyan)); padding: 0.6rem 1.5rem; border-radius: 100px; transition: transform 0.3s var(--ease-out-expo), box-shadow 0.3s ease; }
+    .nav__cta:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(34, 211, 167, 0.3); }
+    .nav__toggle { display: none; flex-direction: column; gap: 5px; padding: 4px; }
+    .nav__toggle span { display: block; width: 24px; height: 2px; background: var(--text-primary); border-radius: 2px; transition: transform 0.3s ease, opacity 0.3s ease; }
+
+    /* BUTTONS */
+    .btn { font-family: var(--font-display); font-weight: 600; font-size: 0.95rem; padding: 0.9rem 2rem; border-radius: 100px; display: inline-flex; align-items: center; gap: 0.5rem; transition: all 0.35s var(--ease-out-expo); }
+    .btn--primary { color: var(--bg-deep); background: linear-gradient(135deg, var(--accent-teal), var(--accent-cyan)); box-shadow: 0 4px 20px rgba(34, 211, 167, 0.25); }
+    .btn--primary:hover { transform: translateY(-3px); box-shadow: 0 12px 40px rgba(34, 211, 167, 0.35); }
+    .btn--ghost { color: var(--text-primary); border: 1.5px solid var(--border-accent); background: transparent; }
+    .btn--ghost:hover { background: var(--accent-glow); border-color: var(--accent-teal); transform: translateY(-2px); }
+    .btn__arrow { transition: transform 0.3s var(--ease-out-expo); }
+    .btn:hover .btn__arrow { transform: translateX(4px); }
+
+    /* SECTION HEADERS */
+    .section-eyebrow { font-family: var(--font-display); font-size: 0.75rem; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent-teal); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.75rem; }
+    .section-eyebrow::before { content: ''; width: 20px; height: 1.5px; background: var(--accent-teal); }
+    .section-title { font-family: var(--font-display); font-size: clamp(2rem, 4vw, 3.2rem); font-weight: 700; line-height: 1.15; letter-spacing: -0.025em; color: var(--text-primary); margin-bottom: 1.25rem; }
+    .section-subtitle { font-size: 1.15rem; color: var(--text-secondary); max-width: 560px; line-height: 1.7; }
+
+    .gradient-text {
+      background: linear-gradient(135deg, var(--accent-teal) 0%, var(--accent-cyan) 50%, var(--accent-blue) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* PAGE HERO */
+    .page-hero {
+      padding-top: 10rem;
+      padding-bottom: 3rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .page-hero__bg { position: absolute; inset: 0; overflow: hidden; }
+    .page-hero__orb { position: absolute; border-radius: 50%; filter: blur(100px); opacity: 0.3; }
+    .page-hero__orb--1 { width: 500px; height: 500px; background: radial-gradient(circle, var(--accent-teal), transparent 70%); top: -20%; right: -5%; }
+    .page-hero__orb--2 { width: 400px; height: 400px; background: radial-gradient(circle, var(--accent-blue), transparent 70%); bottom: -30%; left: -10%; opacity: 0.15; }
+    .page-hero__content { position: relative; z-index: 2; max-width: 700px; }
+
+    .page-hero__title {
+      font-family: var(--font-display);
+      font-size: clamp(2.5rem, 5.5vw, 4.5rem);
+      font-weight: 800;
+      line-height: 1.08;
+      letter-spacing: -0.03em;
+      color: var(--text-primary);
+      margin-bottom: 1.5rem;
+      opacity: 0;
+      animation: fadeUp 0.9s var(--ease-out-expo) 0.2s forwards;
+    }
+
+    .page-hero__subtitle {
+      font-size: 1.2rem;
+      line-height: 1.75;
+      color: var(--text-secondary);
+      max-width: 550px;
+      opacity: 0;
+      animation: fadeUp 0.9s var(--ease-out-expo) 0.4s forwards;
+    }
+
+    /* CALCULATOR */
+    .calc {
+      padding: 4rem 0 8rem;
+    }
+
+    .calc__layout {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: start;
+    }
+
+    /* INPUT PANEL */
+    .calc__inputs {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 20px;
+      padding: 2.5rem;
+    }
+
+    .calc__inputs-title {
+      font-family: var(--font-display);
+      font-size: 1.2rem;
+      font-weight: 650;
+      color: var(--text-primary);
+      margin-bottom: 0.5rem;
+    }
+
+    .calc__inputs-desc {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      margin-bottom: 2rem;
+      line-height: 1.6;
+    }
+
+    .calc__field {
+      margin-bottom: 2rem;
+    }
+
+    .calc__field:last-child {
+      margin-bottom: 0;
+    }
+
+    .calc__label {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 0.75rem;
+    }
+
+    .calc__label-text {
+      font-family: var(--font-display);
+      font-size: 0.9rem;
+      font-weight: 550;
+      color: var(--text-secondary);
+    }
+
+    .calc__label-value {
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--accent-teal);
+      min-width: 60px;
+      text-align: right;
+    }
+
+    /* CUSTOM RANGE SLIDER */
+    .calc__slider {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 100%;
+      height: 6px;
+      border-radius: 3px;
+      background: var(--bg-surface);
+      outline: none;
+      cursor: pointer;
+      position: relative;
+    }
+
+    .calc__slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent-teal), var(--accent-cyan));
+      cursor: pointer;
+      box-shadow: 0 2px 10px rgba(34, 211, 167, 0.4);
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .calc__slider::-webkit-slider-thumb:hover {
+      transform: scale(1.15);
+      box-shadow: 0 4px 20px rgba(34, 211, 167, 0.5);
+    }
+
+    .calc__slider::-moz-range-thumb {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent-teal), var(--accent-cyan));
+      cursor: pointer;
+      border: none;
+      box-shadow: 0 2px 10px rgba(34, 211, 167, 0.4);
+    }
+
+    .calc__slider::-moz-range-track {
+      height: 6px;
+      border-radius: 3px;
+      background: var(--bg-surface);
+    }
+
+    .calc__hint {
+      font-family: var(--font-display);
+      font-size: 0.72rem;
+      color: var(--text-muted);
+      margin-top: 0.5rem;
+    }
+
+    /* RESULTS PANEL */
+    .calc__results {
+      position: sticky;
+      top: 6rem;
+    }
+
+    .calc__results-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 20px;
+      padding: 2.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .calc__results-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--accent-teal), var(--accent-cyan), var(--accent-blue));
+    }
+
+    .calc__results-title {
+      font-family: var(--font-display);
+      font-size: 1.2rem;
+      font-weight: 650;
+      color: var(--text-primary);
+      margin-bottom: 2rem;
+    }
+
+    /* WASTE SECTION */
+    .calc__waste {
+      background: var(--accent-red-glow);
+      border: 1px solid rgba(239, 68, 68, 0.15);
+      border-radius: 14px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .calc__waste-label {
+      font-family: var(--font-display);
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent-red);
+      margin-bottom: 0.5rem;
+    }
+
+    .calc__waste-value {
+      font-family: var(--font-display);
+      font-size: 2rem;
+      font-weight: 800;
+      color: var(--accent-red);
+      line-height: 1.1;
+    }
+
+    .calc__waste-desc {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-top: 0.35rem;
+    }
+
+    /* SAVINGS SECTION */
+    .calc__savings {
+      background: var(--accent-glow);
+      border: 1px solid var(--border-accent);
+      border-radius: 14px;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .calc__savings-label {
+      font-family: var(--font-display);
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--accent-teal);
+      margin-bottom: 0.5rem;
+    }
+
+    .calc__savings-value {
+      font-family: var(--font-display);
+      font-size: 2.5rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--accent-teal), var(--accent-cyan));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1.1;
+    }
+
+    .calc__savings-desc {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-top: 0.35rem;
+    }
+
+    /* STATS ROW */
+    .calc__stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .calc__stat {
+      background: var(--bg-surface);
+      border-radius: 12px;
+      padding: 1.25rem;
+      text-align: center;
+    }
+
+    .calc__stat-number {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: var(--text-primary);
+      line-height: 1.1;
+      margin-bottom: 0.25rem;
+    }
+
+    .calc__stat-label {
+      font-family: var(--font-display);
+      font-size: 0.72rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    .calc__results-cta {
+      text-align: center;
+    }
+
+    .calc__results-note {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      margin-top: 1rem;
+      text-align: center;
+      line-height: 1.5;
+    }
+
+    /* VISUAL BAR */
+    .calc__bar-section {
+      margin-bottom: 2rem;
+    }
+
+    .calc__bar-label {
+      font-family: var(--font-display);
+      font-size: 0.8rem;
+      font-weight: 550;
+      color: var(--text-muted);
+      margin-bottom: 0.5rem;
+    }
+
+    .calc__bar-track {
+      width: 100%;
+      height: 12px;
+      background: var(--bg-surface);
+      border-radius: 6px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .calc__bar-fill {
+      height: 100%;
+      border-radius: 6px;
+      transition: width 0.6s var(--ease-out-expo);
+      position: relative;
+    }
+
+    .calc__bar-fill--waste {
+      background: linear-gradient(90deg, var(--accent-red), rgba(239, 68, 68, 0.6));
+    }
+
+    .calc__bar-fill--saved {
+      background: linear-gradient(90deg, var(--accent-teal), var(--accent-cyan));
+    }
+
+    /* CONTEXT SECTION */
+    .context {
+      padding: 5rem 0;
+      background: var(--bg-surface);
+      border-top: 1px solid var(--border-subtle);
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .context__grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      margin-top: 3rem;
+    }
+
+    .context__card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 14px;
+      padding: 2rem;
+      transition: border-color 0.3s ease;
+    }
+
+    .context__card:hover { border-color: var(--border-accent); }
+
+    .context__icon { font-size: 1.5rem; margin-bottom: 1rem; }
+
+    .context__card h3 {
+      font-family: var(--font-display);
+      font-size: 1.05rem;
+      font-weight: 650;
+      color: var(--text-primary);
+      margin-bottom: 0.5rem;
+    }
+
+    .context__card p {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    /* CTA */
+    .cta { padding: 8rem 0; text-align: center; position: relative; overflow: hidden; }
+    .cta__bg-orb { position: absolute; width: 700px; height: 700px; border-radius: 50%; background: radial-gradient(circle, rgba(34, 211, 167, 0.12), transparent 65%); top: 50%; left: 50%; transform: translate(-50%, -50%); filter: blur(80px); pointer-events: none; }
+    .cta .section-title { font-size: clamp(2.2rem, 5vw, 3.8rem); max-width: 700px; margin: 0 auto 1rem; }
+    .cta .section-subtitle { max-width: 500px; margin: 0 auto 2.5rem; text-align: center; }
+    .cta__actions { display: flex; align-items: center; justify-content: center; gap: 1rem; flex-wrap: wrap; position: relative; z-index: 2; }
+
+    /* FOOTER */
+    .footer { border-top: 1px solid var(--border-subtle); padding: 3rem 0; }
+    .footer__inner { display: flex; align-items: center; justify-content: space-between; }
+    .footer__brand { font-family: var(--font-display); font-weight: 600; font-size: 0.9rem; color: var(--text-muted); }
+    .footer__links { display: flex; gap: 2rem; list-style: none; }
+    .footer__link { font-family: var(--font-display); font-size: 0.8rem; font-weight: 500; color: var(--text-muted); transition: color 0.3s ease; }
+    .footer__link:hover { color: var(--accent-teal); }
+    .footer__nz { font-family: var(--font-display); font-size: 0.8rem; color: var(--text-muted); display: flex; align-items: center; gap: 0.4rem; }
+
+    /* RESPONSIVE */
+    @media (max-width: 900px) {
+      .calc__layout { grid-template-columns: 1fr; }
+      .calc__results { position: static; }
+      .context__grid { grid-template-columns: 1fr; }
+      .nav__links { display: none; }
+      .nav__toggle { display: flex; }
+      .nav__links.open {
+        display: flex; flex-direction: column; position: absolute; top: 100%; left: 0; right: 0;
+        background: rgba(6, 11, 24, 0.97); backdrop-filter: blur(20px); padding: 2rem; gap: 1.5rem;
+        border-bottom: 1px solid var(--border-subtle);
+      }
+    }
+
+    @media (max-width: 600px) {
+      section { padding: 5rem 0; }
+      .container { padding: 0 1.25rem; }
+      .page-hero { padding-top: 8rem; }
+      .calc__inputs, .calc__results-card { padding: 1.75rem; }
+      .calc__stats { grid-template-columns: 1fr; }
+      .footer__inner { flex-direction: column; gap: 1.5rem; text-align: center; }
+    }
+
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 9999;
+      opacity: 0.025;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-repeat: repeat;
+      background-size: 200px 200px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="nav" id="nav">
+    <div class="container nav__inner">
+      <a href="index.html" class="nav__logo">
+        <span class="nav__logo-mark"></span>
+        Flowstate
+      </a>
+      <ul class="nav__links" id="navLinks">
+        <li><a href="services.html" class="nav__link">Services</a></li>
+        <li><a href="about.html" class="nav__link">About</a></li>
+        <li><a href="calculator.html" class="nav__link nav__link--active">ROI Calculator</a></li>
+        <li><a href="contact.html" class="nav__cta">Get in Touch</a></li>
+      </ul>
+      <button class="nav__toggle" id="navToggle" aria-label="Toggle navigation">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- PAGE HERO -->
+  <section class="page-hero">
+    <div class="page-hero__bg">
+      <div class="page-hero__orb page-hero__orb--1"></div>
+      <div class="page-hero__orb page-hero__orb--2"></div>
+    </div>
+    <div class="container page-hero__content">
+      <p class="section-eyebrow" style="opacity:0; animation: fadeUp 0.8s var(--ease-out-expo) 0.1s forwards;">ROI Calculator</p>
+      <h1 class="page-hero__title">
+        See what you could<br>
+        <span class="gradient-text">actually save.</span>
+      </h1>
+      <p class="page-hero__subtitle">
+        Move the sliders below to match your business. The numbers on the right update instantly. No email required, no strings attached.
+      </p>
+    </div>
+  </section>
+
+  <!-- CALCULATOR -->
+  <section class="calc">
+    <div class="container">
+      <div class="calc__layout">
+
+        <!-- INPUT SIDE -->
+        <div class="calc__inputs reveal">
+          <h2 class="calc__inputs-title">Tell us about your business</h2>
+          <p class="calc__inputs-desc">Adjust these to match your situation. Even rough estimates will give you a useful picture.</p>
+
+          <div class="calc__field">
+            <div class="calc__label">
+              <span class="calc__label-text">Team members involved in daily workflows</span>
+              <span class="calc__label-value" id="teamDisplay">5</span>
+            </div>
+            <input type="range" class="calc__slider" id="teamSize" min="1" max="50" value="5">
+            <p class="calc__hint">How many people are doing repetitive work day to day?</p>
+          </div>
+
+          <div class="calc__field">
+            <div class="calc__label">
+              <span class="calc__label-text">Hours per person per week on manual tasks</span>
+              <span class="calc__label-value" id="hoursDisplay">8</span>
+            </div>
+            <input type="range" class="calc__slider" id="hoursPerPerson" min="1" max="40" value="8">
+            <p class="calc__hint">Think: data entry, copying info between tools, chasing updates, manual reporting.</p>
+          </div>
+
+          <div class="calc__field">
+            <div class="calc__label">
+              <span class="calc__label-text">Average hourly cost per person (NZD)</span>
+              <span class="calc__label-value" id="rateDisplay">$35</span>
+            </div>
+            <input type="range" class="calc__slider" id="hourlyRate" min="20" max="120" value="35" step="5">
+            <p class="calc__hint">Include wages plus any overheads. $30 to $50 is common for NZ businesses.</p>
+          </div>
+
+          <div class="calc__field">
+            <div class="calc__label">
+              <span class="calc__label-text">Estimated automation potential</span>
+              <span class="calc__label-value" id="autoDisplay">50%</span>
+            </div>
+            <input type="range" class="calc__slider" id="autoPotential" min="20" max="80" value="50" step="5">
+            <p class="calc__hint">How much of that manual work could realistically be automated? 40% to 60% is typical.</p>
+          </div>
+        </div>
+
+        <!-- RESULTS SIDE -->
+        <div class="calc__results reveal reveal-delay-2">
+          <div class="calc__results-card">
+            <h2 class="calc__results-title">Your potential savings</h2>
+
+            <!-- What you're losing -->
+            <div class="calc__waste">
+              <div class="calc__waste-label">Currently losing</div>
+              <div class="calc__waste-value" id="wasteValue">$1,400/wk</div>
+              <p class="calc__waste-desc"><span id="wasteHours">40</span> hours per week on manual tasks across your team</p>
+            </div>
+
+            <!-- What you could save -->
+            <div class="calc__savings">
+              <div class="calc__savings-label">You could save</div>
+              <div class="calc__savings-value" id="savingsMonthly">$3,033/mo</div>
+              <p class="calc__savings-desc">That's <strong id="savingsYearly">$36,400</strong> per year back in your pocket</p>
+            </div>
+
+            <!-- Visual bar -->
+            <div class="calc__bar-section">
+              <div class="calc__bar-label">Time recovered per week</div>
+              <div class="calc__bar-track">
+                <div class="calc__bar-fill calc__bar-fill--saved" id="barFill" style="width: 50%"></div>
+              </div>
+            </div>
+
+            <!-- Quick stats -->
+            <div class="calc__stats">
+              <div class="calc__stat">
+                <div class="calc__stat-number" id="hoursSavedWeek">20 hrs</div>
+                <div class="calc__stat-label">Saved per week</div>
+              </div>
+              <div class="calc__stat">
+                <div class="calc__stat-number" id="hoursSavedYear">1,040 hrs</div>
+                <div class="calc__stat-label">Saved per year</div>
+              </div>
+            </div>
+
+            <div class="calc__results-cta">
+              <a href="contact.html" class="btn btn--primary">
+                Let's Make This Real
+                <span class="btn__arrow">&rarr;</span>
+              </a>
+              <p class="calc__results-note">These are estimates based on typical results we see with NZ businesses. Your actual savings may be higher or lower depending on your specific workflows.</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTEXT -->
+  <section class="context">
+    <div class="container">
+      <div class="reveal">
+        <p class="section-eyebrow">Where the savings come from</p>
+        <h2 class="section-title">It adds up faster than you think.</h2>
+        <p class="section-subtitle">Here are the most common places NZ businesses are quietly losing time and money every week.</p>
+      </div>
+      <div class="context__grid">
+        <div class="context__card reveal reveal-delay-1">
+          <div class="context__icon">&#x1F4CB;</div>
+          <h3>Manual Data Entry</h3>
+          <p>Typing the same information into three different systems. Every time a new order, invoice, or customer comes in, someone is copying and pasting.</p>
+        </div>
+        <div class="context__card reveal reveal-delay-2">
+          <div class="context__icon">&#x1F4E7;</div>
+          <h3>Chasing Updates</h3>
+          <p>Sending "just checking in" emails, following up on tasks, and asking people where things are at. A connected system does this automatically.</p>
+        </div>
+        <div class="context__card reveal reveal-delay-3">
+          <div class="context__icon">&#x1F4CA;</div>
+          <h3>Manual Reporting</h3>
+          <p>Spending hours every week pulling numbers from different places and dropping them into a spreadsheet. Reports that should build themselves.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta">
+    <div class="cta__bg-orb"></div>
+    <div class="container">
+      <div class="reveal">
+        <p class="section-eyebrow" style="justify-content: center;">Ready to stop losing money?</p>
+        <h2 class="section-title" style="text-align: center;">Those savings won't<br>capture themselves.</h2>
+        <p class="section-subtitle">Book a free consultation and we'll show you exactly where the biggest wins are in your business. No commitment, no sales pitch.</p>
+      </div>
+      <div class="cta__actions reveal reveal-delay-2">
+        <a href="contact.html" class="btn btn--primary">
+          Book a Free Consult
+          <span class="btn__arrow">&rarr;</span>
+        </a>
+        <a href="services.html" class="btn btn--ghost">
+          Learn About Our Services
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container footer__inner">
+      <p class="footer__brand">&copy; 2026 Flowstate Solutions</p>
+      <ul class="footer__links">
+        <li><a href="services.html" class="footer__link">Services</a></li>
+        <li><a href="about.html" class="footer__link">About</a></li>
+        <li><a href="calculator.html" class="footer__link">ROI Calculator</a></li>
+        <li><a href="contact.html" class="footer__link">Contact</a></li>
+      </ul>
+      <p class="footer__nz">Based in New Zealand &#x1F1F3;&#x1F1FF; &middot; Working Remotely</p>
+    </div>
+  </footer>
+
+  <script>
+    // Scroll reveal
+    const revealEls = document.querySelectorAll('.reveal');
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
+    }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+    revealEls.forEach(el => revealObserver.observe(el));
+
+    // Nav
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 60);
+    }, { passive: true });
+
+    const navToggle = document.getElementById('navToggle');
+    const navLinks = document.getElementById('navLinks');
+    navToggle.addEventListener('click', () => navLinks.classList.toggle('open'));
+    navLinks.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => navLinks.classList.remove('open'));
+    });
+
+    // Calculator logic
+    const teamSlider = document.getElementById('teamSize');
+    const hoursSlider = document.getElementById('hoursPerPerson');
+    const rateSlider = document.getElementById('hourlyRate');
+    const autoSlider = document.getElementById('autoPotential');
+
+    const teamDisplay = document.getElementById('teamDisplay');
+    const hoursDisplay = document.getElementById('hoursDisplay');
+    const rateDisplay = document.getElementById('rateDisplay');
+    const autoDisplay = document.getElementById('autoDisplay');
+
+    const wasteValue = document.getElementById('wasteValue');
+    const wasteHours = document.getElementById('wasteHours');
+    const savingsMonthly = document.getElementById('savingsMonthly');
+    const savingsYearly = document.getElementById('savingsYearly');
+    const hoursSavedWeek = document.getElementById('hoursSavedWeek');
+    const hoursSavedYear = document.getElementById('hoursSavedYear');
+    const barFill = document.getElementById('barFill');
+
+    function formatMoney(num) {
+      return '$' + Math.round(num).toLocaleString('en-NZ');
+    }
+
+    function calculate() {
+      const team = parseInt(teamSlider.value);
+      const hours = parseInt(hoursSlider.value);
+      const rate = parseInt(rateSlider.value);
+      const autoPct = parseInt(autoSlider.value) / 100;
+
+      // Display values
+      teamDisplay.textContent = team;
+      hoursDisplay.textContent = hours;
+      rateDisplay.textContent = '$' + rate;
+      autoDisplay.textContent = autoSlider.value + '%';
+
+      // Calculations
+      const totalManualHoursWeek = team * hours;
+      const weeklyCost = totalManualHoursWeek * rate;
+      const hoursSaved = totalManualHoursWeek * autoPct;
+      const weeklySavings = hoursSaved * rate;
+      const monthlySavings = weeklySavings * 4.33;
+      const yearlySavings = weeklySavings * 52;
+      const yearlyHoursSaved = hoursSaved * 52;
+
+      // Update waste
+      wasteValue.textContent = formatMoney(weeklyCost) + '/wk';
+      wasteHours.textContent = totalManualHoursWeek;
+
+      // Update savings
+      savingsMonthly.textContent = formatMoney(monthlySavings) + '/mo';
+      savingsYearly.textContent = formatMoney(yearlySavings);
+
+      // Update stats
+      hoursSavedWeek.textContent = Math.round(hoursSaved) + ' hrs';
+      hoursSavedYear.textContent = Math.round(yearlyHoursSaved).toLocaleString('en-NZ') + ' hrs';
+
+      // Update bar (percentage of total hours that could be saved)
+      barFill.style.width = (autoPct * 100) + '%';
+    }
+
+    // Listen to all sliders
+    [teamSlider, hoursSlider, rateSlider, autoSlider].forEach(slider => {
+      slider.addEventListener('input', calculate);
+    });
+
+    // Initial calculation
+    calculate();
+  </script>
+</body>
+</html>

@@ -1,0 +1,583 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Get in Touch | Flowstate Solutions</title>
+  <meta name="description" content="Book a free consultation with Flowstate Solutions. No pressure, no jargon, just an honest conversation about how your business could run smoother.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=Crimson+Pro:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-deep: #060B18;
+      --bg-surface: #0B1221;
+      --bg-card: #111B2E;
+      --bg-card-hover: #162035;
+      --accent-teal: #22D3A7;
+      --accent-cyan: #06B6D4;
+      --accent-blue: #3B82F6;
+      --accent-glow: rgba(34, 211, 167, 0.15);
+      --text-primary: #F1F5F9;
+      --text-secondary: #94A3B8;
+      --text-muted: #64748B;
+      --border-subtle: rgba(148, 163, 184, 0.08);
+      --border-accent: rgba(34, 211, 167, 0.2);
+      --font-display: 'Bricolage Grotesque', sans-serif;
+      --font-body: 'Crimson Pro', Georgia, serif;
+      --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+      --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+    body { font-family: var(--font-body); font-weight: 400; font-size: 1.125rem; line-height: 1.7; color: var(--text-secondary); background: var(--bg-deep); overflow-x: hidden; }
+    img { max-width: 100%; display: block; }
+    a { color: inherit; text-decoration: none; }
+    button { font: inherit; cursor: pointer; border: none; background: none; }
+    ::selection { background: rgba(34, 211, 167, 0.3); color: var(--text-primary); }
+
+    .container { width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
+    section { position: relative; padding: 8rem 0; }
+
+    .reveal { opacity: 0; transform: translateY(40px); transition: opacity 0.9s var(--ease-out-expo), transform 0.9s var(--ease-out-expo); }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+    .reveal-delay-4 { transition-delay: 0.4s; }
+
+    /* NAV */
+    .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 1.25rem 0; transition: background 0.4s ease, backdrop-filter 0.4s ease, padding 0.4s ease; }
+    .nav.scrolled { background: rgba(6, 11, 24, 0.85); backdrop-filter: blur(20px) saturate(1.2); -webkit-backdrop-filter: blur(20px) saturate(1.2); padding: 0.75rem 0; border-bottom: 1px solid var(--border-subtle); }
+    .nav__inner { display: flex; align-items: center; justify-content: space-between; }
+    .nav__logo { font-family: var(--font-display); font-weight: 700; font-size: 1.35rem; color: var(--text-primary); letter-spacing: -0.02em; display: flex; align-items: center; gap: 0.6rem; }
+    .nav__logo-mark { width: 32px; height: 32px; border-radius: 8px; background: linear-gradient(135deg, var(--accent-teal), var(--accent-cyan)); display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
+    .nav__logo-mark::after { content: ''; position: absolute; width: 18px; height: 18px; border: 2.5px solid rgba(255,255,255,0.9); border-radius: 50%; clip-path: polygon(0 0, 100% 0, 100% 60%, 0 60%); transform: rotate(-20deg); top: 5px; left: 7px; }
+    .nav__links { display: flex; align-items: center; gap: 2.5rem; list-style: none; }
+    .nav__link { font-family: var(--font-display); font-size: 0.875rem; font-weight: 500; color: var(--text-secondary); letter-spacing: 0.01em; transition: color 0.3s ease; position: relative; }
+    .nav__link::after { content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 1.5px; background: var(--accent-teal); transition: width 0.3s var(--ease-out-expo); }
+    .nav__link:hover { color: var(--text-primary); }
+    .nav__link:hover::after { width: 100%; }
+    .nav__link--active { color: var(--accent-teal); }
+    .nav__link--active::after { width: 100%; }
+    .nav__cta { font-family: var(--font-display); font-size: 0.85rem; font-weight: 600; color: var(--bg-deep); background: linear-gradient(135deg, var(--accent-teal), var(--accent-cyan)); padding: 0.6rem 1.5rem; border-radius: 100px; transition: transform 0.3s var(--ease-out-expo), box-shadow 0.3s ease; }
+    .nav__cta:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(34, 211, 167, 0.3); }
+    .nav__toggle { display: none; flex-direction: column; gap: 5px; padding: 4px; }
+    .nav__toggle span { display: block; width: 24px; height: 2px; background: var(--text-primary); border-radius: 2px; transition: transform 0.3s ease, opacity 0.3s ease; }
+
+    /* BUTTONS */
+    .btn { font-family: var(--font-display); font-weight: 600; font-size: 0.95rem; padding: 0.9rem 2rem; border-radius: 100px; display: inline-flex; align-items: center; gap: 0.5rem; transition: all 0.35s var(--ease-out-expo); }
+    .btn--primary { color: var(--bg-deep); background: linear-gradient(135deg, var(--accent-teal), var(--accent-cyan)); box-shadow: 0 4px 20px rgba(34, 211, 167, 0.25); }
+    .btn--primary:hover { transform: translateY(-3px); box-shadow: 0 12px 40px rgba(34, 211, 167, 0.35); }
+    .btn--ghost { color: var(--text-primary); border: 1.5px solid var(--border-accent); background: transparent; }
+    .btn--ghost:hover { background: var(--accent-glow); border-color: var(--accent-teal); transform: translateY(-2px); }
+    .btn__arrow { transition: transform 0.3s var(--ease-out-expo); }
+    .btn:hover .btn__arrow { transform: translateX(4px); }
+
+    /* SECTION HEADERS */
+    .section-eyebrow { font-family: var(--font-display); font-size: 0.75rem; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent-teal); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.75rem; }
+    .section-eyebrow::before { content: ''; width: 20px; height: 1.5px; background: var(--accent-teal); }
+    .section-title { font-family: var(--font-display); font-size: clamp(2rem, 4vw, 3.2rem); font-weight: 700; line-height: 1.15; letter-spacing: -0.025em; color: var(--text-primary); margin-bottom: 1.25rem; }
+    .section-subtitle { font-size: 1.15rem; color: var(--text-secondary); max-width: 560px; line-height: 1.7; }
+
+    .gradient-text {
+      background: linear-gradient(135deg, var(--accent-teal) 0%, var(--accent-cyan) 50%, var(--accent-blue) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* PAGE HERO */
+    .page-hero {
+      padding-top: 10rem;
+      padding-bottom: 3rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .page-hero__bg { position: absolute; inset: 0; overflow: hidden; }
+    .page-hero__orb { position: absolute; border-radius: 50%; filter: blur(100px); opacity: 0.3; }
+    .page-hero__orb--1 { width: 500px; height: 500px; background: radial-gradient(circle, var(--accent-teal), transparent 70%); top: -20%; right: -5%; }
+    .page-hero__orb--2 { width: 400px; height: 400px; background: radial-gradient(circle, var(--accent-blue), transparent 70%); bottom: -30%; left: -10%; opacity: 0.15; }
+    .page-hero__content { position: relative; z-index: 2; max-width: 700px; }
+
+    .page-hero__title {
+      font-family: var(--font-display);
+      font-size: clamp(2.5rem, 5.5vw, 4.5rem);
+      font-weight: 800;
+      line-height: 1.08;
+      letter-spacing: -0.03em;
+      color: var(--text-primary);
+      margin-bottom: 1.5rem;
+      opacity: 0;
+      animation: fadeUp 0.9s var(--ease-out-expo) 0.2s forwards;
+    }
+
+    .page-hero__subtitle {
+      font-size: 1.2rem;
+      line-height: 1.75;
+      color: var(--text-secondary);
+      max-width: 550px;
+      opacity: 0;
+      animation: fadeUp 0.9s var(--ease-out-expo) 0.4s forwards;
+    }
+
+    /* CONTACT LAYOUT */
+    .contact {
+      padding: 4rem 0 8rem;
+    }
+
+    .contact__grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3rem;
+      align-items: start;
+    }
+
+    /* CONTACT METHODS */
+    .contact__methods {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .contact__method {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 16px;
+      padding: 2rem;
+      transition: all 0.4s var(--ease-out-expo);
+      position: relative;
+      overflow: hidden;
+      display: block;
+    }
+
+    .contact__method::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--accent-teal), transparent);
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+
+    .contact__method:hover {
+      background: var(--bg-card-hover);
+      border-color: var(--border-accent);
+      transform: translateY(-4px);
+      box-shadow: 0 16px 50px rgba(0, 0, 0, 0.3);
+    }
+
+    .contact__method:hover::before { opacity: 1; }
+
+    .contact__method-icon {
+      width: 52px;
+      height: 52px;
+      border-radius: 14px;
+      background: var(--accent-glow);
+      border: 1px solid var(--border-accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1.25rem;
+      font-size: 1.4rem;
+    }
+
+    .contact__method-title {
+      font-family: var(--font-display);
+      font-size: 1.15rem;
+      font-weight: 650;
+      color: var(--text-primary);
+      margin-bottom: 0.5rem;
+    }
+
+    .contact__method-desc {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+      margin-bottom: 1rem;
+    }
+
+    .contact__method-link {
+      font-family: var(--font-display);
+      font-size: 0.85rem;
+      font-weight: 600;
+      color: var(--accent-teal);
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      transition: gap 0.3s var(--ease-out-expo);
+    }
+
+    .contact__method:hover .contact__method-link {
+      gap: 0.7rem;
+    }
+
+    /* EXPECT SECTION */
+    .contact__expect {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 20px;
+      padding: 2.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .contact__expect::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--accent-teal), var(--accent-cyan), var(--accent-blue));
+    }
+
+    .contact__expect-title {
+      font-family: var(--font-display);
+      font-size: 1.3rem;
+      font-weight: 650;
+      color: var(--text-primary);
+      margin-bottom: 0.5rem;
+    }
+
+    .contact__expect-subtitle {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      margin-bottom: 2rem;
+      line-height: 1.6;
+    }
+
+    .contact__steps {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .contact__step {
+      display: flex;
+      gap: 1.25rem;
+      align-items: flex-start;
+    }
+
+    .contact__step-number {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background: var(--bg-deep);
+      border: 2px solid var(--accent-teal);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-display);
+      font-weight: 700;
+      font-size: 0.85rem;
+      color: var(--accent-teal);
+      flex-shrink: 0;
+      box-shadow: 0 0 15px rgba(34, 211, 167, 0.12);
+    }
+
+    .contact__step-content h4 {
+      font-family: var(--font-display);
+      font-size: 1rem;
+      font-weight: 650;
+      color: var(--text-primary);
+      margin-bottom: 0.25rem;
+    }
+
+    .contact__step-content p {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    .contact__promise {
+      margin-top: 2rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid var(--border-subtle);
+      display: flex;
+      align-items: flex-start;
+      gap: 0.75rem;
+    }
+
+    .contact__promise-icon {
+      font-size: 1.2rem;
+      flex-shrink: 0;
+      margin-top: 2px;
+    }
+
+    .contact__promise-text {
+      font-family: var(--font-display);
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--text-secondary);
+      line-height: 1.6;
+    }
+
+    /* NOT SURE SECTION */
+    .not-sure {
+      padding: 5rem 0;
+      background: var(--bg-surface);
+      border-top: 1px solid var(--border-subtle);
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .not-sure__inner {
+      text-align: center;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    .not-sure__title {
+      font-family: var(--font-display);
+      font-size: clamp(1.5rem, 3vw, 2rem);
+      font-weight: 700;
+      color: var(--text-primary);
+      margin-bottom: 1rem;
+    }
+
+    .not-sure__desc {
+      font-size: 1.05rem;
+      color: var(--text-secondary);
+      margin-bottom: 2rem;
+      line-height: 1.7;
+    }
+
+    .not-sure__links {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+
+    /* FOOTER */
+    .footer { border-top: 1px solid var(--border-subtle); padding: 3rem 0; }
+    .footer__inner { display: flex; align-items: center; justify-content: space-between; }
+    .footer__brand { font-family: var(--font-display); font-weight: 600; font-size: 0.9rem; color: var(--text-muted); }
+    .footer__links { display: flex; gap: 2rem; list-style: none; }
+    .footer__link { font-family: var(--font-display); font-size: 0.8rem; font-weight: 500; color: var(--text-muted); transition: color 0.3s ease; }
+    .footer__link:hover { color: var(--accent-teal); }
+    .footer__nz { font-family: var(--font-display); font-size: 0.8rem; color: var(--text-muted); display: flex; align-items: center; gap: 0.4rem; }
+
+    /* RESPONSIVE */
+    @media (max-width: 900px) {
+      .contact__grid { grid-template-columns: 1fr; }
+      .nav__links { display: none; }
+      .nav__toggle { display: flex; }
+      .nav__links.open {
+        display: flex; flex-direction: column; position: absolute; top: 100%; left: 0; right: 0;
+        background: rgba(6, 11, 24, 0.97); backdrop-filter: blur(20px); padding: 2rem; gap: 1.5rem;
+        border-bottom: 1px solid var(--border-subtle);
+      }
+    }
+
+    @media (max-width: 600px) {
+      section { padding: 5rem 0; }
+      .container { padding: 0 1.25rem; }
+      .page-hero { padding-top: 8rem; }
+      .contact__expect { padding: 1.75rem; }
+      .footer__inner { flex-direction: column; gap: 1.5rem; text-align: center; }
+    }
+
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 9999;
+      opacity: 0.025;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-repeat: repeat;
+      background-size: 200px 200px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="nav" id="nav">
+    <div class="container nav__inner">
+      <a href="index.html" class="nav__logo">
+        <span class="nav__logo-mark"></span>
+        Flowstate
+      </a>
+      <ul class="nav__links" id="navLinks">
+        <li><a href="services.html" class="nav__link">Services</a></li>
+        <li><a href="about.html" class="nav__link">About</a></li>
+        <li><a href="calculator.html" class="nav__link">ROI Calculator</a></li>
+        <li><a href="contact.html" class="nav__cta nav__cta--active">Get in Touch</a></li>
+      </ul>
+      <button class="nav__toggle" id="navToggle" aria-label="Toggle navigation">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- PAGE HERO -->
+  <section class="page-hero">
+    <div class="page-hero__bg">
+      <div class="page-hero__orb page-hero__orb--1"></div>
+      <div class="page-hero__orb page-hero__orb--2"></div>
+    </div>
+    <div class="container page-hero__content">
+      <p class="section-eyebrow" style="opacity:0; animation: fadeUp 0.8s var(--ease-out-expo) 0.1s forwards;">Get in Touch</p>
+      <h1 class="page-hero__title">
+        Let's have a real<br>
+        <span class="gradient-text">conversation.</span>
+      </h1>
+      <p class="page-hero__subtitle">
+        No forms to fill out, no chatbots to navigate. Just reach out and we'll talk like actual people.
+      </p>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="contact">
+    <div class="container">
+      <div class="contact__grid">
+
+        <!-- LEFT: Contact Methods -->
+        <div class="contact__methods reveal">
+          <a href="mailto:hello@flowstatesolutions.co.nz" class="contact__method">
+            <div class="contact__method-icon">&#x2709;&#xFE0F;</div>
+            <h3 class="contact__method-title">Email Us</h3>
+            <p class="contact__method-desc">The quickest way to get the ball rolling. Tell us a bit about your business and what's been bugging you. We'll reply within 24 hours.</p>
+            <span class="contact__method-link">
+              hello@flowstatesolutions.co.nz
+              <span>&rarr;</span>
+            </span>
+          </a>
+
+          <a href="mailto:hello@flowstatesolutions.co.nz?subject=Free%20Consultation%20Request&body=Hi%20Flowstate%2C%0A%0AI'd%20like%20to%20book%20a%20free%20consultation.%0A%0ABusiness%20name%3A%20%0AWhat%20we%20do%3A%20%0ATeam%20size%3A%20%0ABiggest%20pain%20point%3A%20%0A%0AThanks!" class="contact__method">
+            <div class="contact__method-icon">&#x1F4F9;</div>
+            <h3 class="contact__method-title">Book a Free Consultation</h3>
+            <p class="contact__method-desc">A 30 minute Zoom call where we learn about your business, identify the biggest opportunities, and figure out whether we're the right fit. Zero cost, zero obligation.</p>
+            <span class="contact__method-link">
+              Book your free call
+              <span>&rarr;</span>
+            </span>
+          </a>
+
+          <a href="mailto:hello@flowstatesolutions.co.nz?subject=Quick%20Question" class="contact__method">
+            <div class="contact__method-icon">&#x1F4AC;</div>
+            <h3 class="contact__method-title">Just Got a Question?</h3>
+            <p class="contact__method-desc">Not ready for a full consultation? No worries. Drop us a line with your question and we'll give you an honest answer. Sometimes a quick pointer is all you need.</p>
+            <span class="contact__method-link">
+              Ask us anything
+              <span>&rarr;</span>
+            </span>
+          </a>
+        </div>
+
+        <!-- RIGHT: What to Expect -->
+        <div class="contact__expect reveal reveal-delay-2">
+          <h2 class="contact__expect-title">What happens after you reach out</h2>
+          <p class="contact__expect-subtitle">No surprises. Here's exactly how our first interaction goes.</p>
+
+          <ol class="contact__steps">
+            <li class="contact__step">
+              <div class="contact__step-number">01</div>
+              <div class="contact__step-content">
+                <h4>You send us a message</h4>
+                <p>Tell us who you are, what your business does, and what's been frustrating you. Don't overthink it, a few sentences is plenty.</p>
+              </div>
+            </li>
+            <li class="contact__step">
+              <div class="contact__step-number">02</div>
+              <div class="contact__step-content">
+                <h4>We reply within 24 hours</h4>
+                <p>We'll respond with a few questions and suggest a time for a free Zoom call if it makes sense. No automated replies, just a real person.</p>
+              </div>
+            </li>
+            <li class="contact__step">
+              <div class="contact__step-number">03</div>
+              <div class="contact__step-content">
+                <h4>We have a real conversation</h4>
+                <p>30 minutes on Zoom. We'll ask about your workflows, your pain points, and your goals. You'll walk away with useful insights even if we never work together.</p>
+              </div>
+            </li>
+            <li class="contact__step">
+              <div class="contact__step-number">04</div>
+              <div class="contact__step-content">
+                <h4>You decide (no pressure)</h4>
+                <p>If we can help, we'll tell you exactly how, what it would cost, and what you can expect. If we're not the right fit, we'll tell you that too. Honestly.</p>
+              </div>
+            </li>
+          </ol>
+
+          <div class="contact__promise">
+            <span class="contact__promise-icon">&#x1F91D;</span>
+            <p class="contact__promise-text">
+              Our promise: we will never pressure you into buying something. If automation isn't the right move for your business, we'll say so. Our reputation matters more than a quick sale.
+            </p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- NOT SURE -->
+  <section class="not-sure">
+    <div class="container">
+      <div class="not-sure__inner reveal">
+        <h2 class="not-sure__title">Not sure where to start?</h2>
+        <p class="not-sure__desc">That's completely fine. Try our ROI calculator to see what kind of savings your business could be looking at. Or browse our services to get a feel for what we do. No rush.</p>
+        <div class="not-sure__links">
+          <a href="calculator.html" class="btn btn--primary">
+            Try the ROI Calculator
+            <span class="btn__arrow">&rarr;</span>
+          </a>
+          <a href="services.html" class="btn btn--ghost">
+            Browse Our Services
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container footer__inner">
+      <p class="footer__brand">&copy; 2026 Flowstate Solutions</p>
+      <ul class="footer__links">
+        <li><a href="services.html" class="footer__link">Services</a></li>
+        <li><a href="about.html" class="footer__link">About</a></li>
+        <li><a href="calculator.html" class="footer__link">ROI Calculator</a></li>
+        <li><a href="contact.html" class="footer__link">Contact</a></li>
+      </ul>
+      <p class="footer__nz">Based in New Zealand &#x1F1F3;&#x1F1FF; &middot; Working Remotely</p>
+    </div>
+  </footer>
+
+  <script>
+    const revealEls = document.querySelectorAll('.reveal');
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
+    }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+    revealEls.forEach(el => revealObserver.observe(el));
+
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 60);
+    }, { passive: true });
+
+    const navToggle = document.getElementById('navToggle');
+    const navLinks = document.getElementById('navLinks');
+    navToggle.addEventListener('click', () => navLinks.classList.toggle('open'));
+    navLinks.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => navLinks.classList.remove('open'));
+    });
+  </script>
+</body>
+</html>

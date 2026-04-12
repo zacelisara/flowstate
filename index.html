@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Flowstate Solutions — Simplify. Automate. Flow.</title>
-  <meta name="description" content="Flowstate Solutions helps NZ businesses remove operational mess, simplify systems, and automate what matters — with vendor-neutral advice and clear ROI.">
+  <meta name="description" content="Flowstate Solutions helps NZ businesses remove operational mess, simplify systems, and automate what matters with vendor neutral advice and clear ROI.">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=Crimson+Pro:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap" rel="stylesheet">
@@ -915,6 +915,65 @@
     }
 
     /* ═══════════════════════════════════════════
+       SAVINGS SNAPSHOT
+       ═══════════════════════════════════════════ */
+    .savings {
+      padding: 6rem 0;
+      text-align: center;
+    }
+
+    .savings__stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+      margin-top: 3rem;
+      margin-bottom: 2.5rem;
+    }
+
+    .savings__stat {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 16px;
+      padding: 2.5rem 1.5rem;
+      transition: border-color 0.3s ease, transform 0.3s var(--ease-out-expo);
+    }
+
+    .savings__stat:hover {
+      border-color: var(--border-accent);
+      transform: translateY(-4px);
+    }
+
+    .savings__stat-number {
+      font-family: var(--font-display);
+      font-size: clamp(2.5rem, 5vw, 3.5rem);
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--accent-teal), var(--accent-cyan));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1.1;
+      margin-bottom: 0.5rem;
+    }
+
+    .savings__stat-label {
+      font-family: var(--font-display);
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: var(--text-secondary);
+    }
+
+    .savings__cta-text {
+      font-size: 1.05rem;
+      color: var(--text-muted);
+      margin-bottom: 1.5rem;
+    }
+
+    .services__more {
+      text-align: center;
+      margin-top: 2.5rem;
+    }
+
+    /* ═══════════════════════════════════════════
        RESPONSIVE
        ═══════════════════════════════════════════ */
     @media (max-width: 900px) {
@@ -931,6 +990,11 @@
 
       .values__grid {
         grid-template-columns: 1fr;
+      }
+
+      .savings__stats {
+        grid-template-columns: 1fr;
+        gap: 1rem;
       }
 
       .nav__links { display: none; }
@@ -1005,11 +1069,10 @@
         Flowstate
       </a>
       <ul class="nav__links" id="navLinks">
-        <li><a href="#problem" class="nav__link">Why Us</a></li>
-        <li><a href="#services" class="nav__link">Services</a></li>
-        <li><a href="#process" class="nav__link">Process</a></li>
-        <li><a href="#values" class="nav__link">Values</a></li>
-        <li><a href="#contact" class="nav__cta">Get in Touch</a></li>
+        <li><a href="services.html" class="nav__link">Services</a></li>
+        <li><a href="about.html" class="nav__link">About</a></li>
+        <li><a href="calculator.html" class="nav__link">ROI Calculator</a></li>
+        <li><a href="contact.html" class="nav__cta">Get in Touch</a></li>
       </ul>
       <button class="nav__toggle" id="navToggle" aria-label="Toggle navigation">
         <span></span><span></span><span></span>
@@ -1034,11 +1097,11 @@
         We help New Zealand businesses cut through operational mess, simplify their systems, and only automate what actually delivers ROI.
       </p>
       <div class="hero__actions">
-        <a href="#contact" class="btn btn--primary">
+        <a href="contact.html" class="btn btn--primary">
           Book a Free Consult
           <span class="btn__arrow">&rarr;</span>
         </a>
-        <a href="#services" class="btn btn--ghost">See How It Works</a>
+        <a href="services.html" class="btn btn--ghost">See How It Works</a>
       </div>
     </div>
     <div class="hero__scroll">
@@ -1109,13 +1172,13 @@
         <div class="service-card reveal reveal-delay-1">
           <div class="service-card__icon">&#x1F50D;</div>
           <h3 class="service-card__title">Workflow Audit</h3>
-          <p class="service-card__desc">We map your current processes end-to-end, identify bottlenecks, redundancies, and hidden costs — then give you an honest, vendor-neutral assessment.</p>
+          <p class="service-card__desc">We map your current processes from start to finish, identify bottlenecks, redundancies, and hidden costs, then give you an honest, vendor neutral assessment.</p>
           <span class="service-card__tag">Discovery</span>
         </div>
         <div class="service-card reveal reveal-delay-2">
           <div class="service-card__icon">&#x2699;&#xFE0F;</div>
           <h3 class="service-card__title">Process Design</h3>
-          <p class="service-card__desc">We redesign your workflows for simplicity. Fewer steps, clearer responsibilities, less room for things to slip through the cracks.</p>
+          <p class="service-card__desc">We redesign your workflows for simplicity. Fewer steps, clearer ownership, less room for things to slip through the cracks.</p>
           <span class="service-card__tag">Consulting</span>
         </div>
         <div class="service-card reveal reveal-delay-3">
@@ -1125,6 +1188,12 @@
           <span class="service-card__tag">Automation</span>
         </div>
       </div>
+      <div class="services__more reveal reveal-delay-4">
+        <a href="services.html" class="btn btn--ghost">
+          Explore All Services
+          <span class="btn__arrow">&rarr;</span>
+        </a>
+      </div>
     </div>
   </section>
 
@@ -1133,9 +1202,41 @@
     <div class="container">
       <div class="usp__inner reveal">
         <p class="usp__quote">
-          &ldquo;We only automate what's <span class="gradient-text">worth automating</span> — with vendor-neutral advice and clear ROI.&rdquo;
+          &ldquo;We only automate what's <span class="gradient-text">worth automating</span>, with vendor neutral advice and clear ROI.&rdquo;
         </p>
-        <p class="usp__sub">No lock-in. No upselling. Just honest, practical solutions.</p>
+        <p class="usp__sub">No getting locked in. No upselling. Just honest, practical solutions.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════════════ SAVINGS SNAPSHOT ════════════ -->
+  <section class="savings">
+    <div class="container">
+      <div class="reveal">
+        <p class="section-eyebrow" style="justify-content: center;">The Numbers</p>
+        <h2 class="section-title" style="text-align: center; margin: 0 auto 0.5rem;">What streamlined workflows could save you</h2>
+        <p class="section-subtitle" style="text-align: center; margin: 0 auto;">Based on what we typically see with NZ businesses still running on manual processes.</p>
+      </div>
+      <div class="savings__stats">
+        <div class="savings__stat reveal reveal-delay-1">
+          <div class="savings__stat-number">15+ hrs</div>
+          <p class="savings__stat-label">Saved per week on repetitive tasks</p>
+        </div>
+        <div class="savings__stat reveal reveal-delay-2">
+          <div class="savings__stat-number">$2,400+</div>
+          <p class="savings__stat-label">Average monthly savings</p>
+        </div>
+        <div class="savings__stat reveal reveal-delay-3">
+          <div class="savings__stat-number">3x</div>
+          <p class="savings__stat-label">Faster turnaround on key processes</p>
+        </div>
+      </div>
+      <div class="reveal reveal-delay-4">
+        <p class="savings__cta-text">Curious what your business could save?</p>
+        <a href="calculator.html" class="btn btn--primary">
+          Try Our ROI Calculator
+          <span class="btn__arrow">&rarr;</span>
+        </a>
       </div>
     </div>
   </section>
@@ -1221,15 +1322,15 @@
       <div class="reveal">
         <p class="section-eyebrow" style="justify-content: center;">Ready?</p>
         <h2 class="section-title">Let's untangle<br>your workflows.</h2>
-        <p class="section-subtitle">Book a free consultation. No pressure, no jargon — just an honest conversation about how your business could run smoother.</p>
+        <p class="section-subtitle">Book a free consultation. No pressure, no jargon, just an honest conversation about how your business could run smoother.</p>
       </div>
       <div class="cta__actions reveal reveal-delay-2">
-        <a href="mailto:hello@flowstatesolutions.co.nz" class="btn btn--primary">
+        <a href="contact.html" class="btn btn--primary">
           Book a Free Consult
           <span class="btn__arrow">&rarr;</span>
         </a>
-        <a href="mailto:hello@flowstatesolutions.co.nz" class="btn btn--ghost">
-          Email Us Directly
+        <a href="calculator.html" class="btn btn--ghost">
+          See What You Could Save
         </a>
       </div>
     </div>
@@ -1240,10 +1341,10 @@
     <div class="container footer__inner">
       <p class="footer__brand">&copy; 2026 Flowstate Solutions</p>
       <ul class="footer__links">
-        <li><a href="#services" class="footer__link">Services</a></li>
-        <li><a href="#process" class="footer__link">Process</a></li>
-        <li><a href="#values" class="footer__link">Values</a></li>
-        <li><a href="#contact" class="footer__link">Contact</a></li>
+        <li><a href="services.html" class="footer__link">Services</a></li>
+        <li><a href="about.html" class="footer__link">About</a></li>
+        <li><a href="calculator.html" class="footer__link">ROI Calculator</a></li>
+        <li><a href="contact.html" class="footer__link">Contact</a></li>
       </ul>
       <p class="footer__nz">Based in New Zealand 🇳🇿 &middot; Working Remotely</p>
     </div>

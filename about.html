@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>About | Flowstate Solutions</title>
+  <meta name="description" content="Flowstate Solutions is a one person operation built on honesty, transparency, and a genuine desire to help NZ businesses work smarter.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=Crimson+Pro:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-deep: #060B18;
+      --bg-surface: #0B1221;
+      --bg-card: #111B2E;
+      --bg-card-hover: #162035;
+      --accent-teal: #22D3A7;
+      --accent-cyan: #06B6D4;
+      --accent-blue: #3B82F6;
+      --accent-glow: rgba(34, 211, 167, 0.15);
+      --text-primary: #F1F5F9;
+      --text-secondary: #94A3B8;
+      --text-muted: #64748B;
+      --border-subtle: rgba(148, 163, 184, 0.08);
+      --border-accent: rgba(34, 211, 167, 0.2);
+      --font-display: 'Bricolage Grotesque', sans-serif;
+      --font-body: 'Crimson Pro', Georgia, serif;
+      --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+      --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+    body { font-family: var(--font-body); font-weight: 400; font-size: 1.125rem; line-height: 1.7; color: var(--text-secondary); background: var(--bg-deep); overflow-x: hidden; }
+    img { max-width: 100%; display: block; }
+    a { color: inherit; text-decoration: none; }
+    button { font: inherit; cursor: pointer; border: none; background: none; }
+    ::selection { background: rgba(34, 211, 167, 0.3); color: var(--text-primary); }
+
+    .container { width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
+    section { position: relative; padding: 8rem 0; }
+
+    .reveal { opacity: 0; transform: translateY(40px); transition: opacity 0.9s var(--ease-out-expo), transform 0.9s var(--ease-out-expo); }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+    .reveal-delay-4 { transition-delay: 0.4s; }
+
+    /* NAV */
+    .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 1.25rem 0; transition: background 0.4s ease, backdrop-filter 0.4s ease, padding 0.4s ease; }
+    .nav.scrolled { background: rgba(6, 11, 24, 0.85); backdrop-filter: blur(20px) saturate(1.2); -webkit-backdrop-filter: blur(20px) saturate(1.2); padding: 0.75rem 0; border-bottom: 1px solid var(--border-subtle); }
+    .nav__inner { display: flex; align-items: center; justify-content: space-between; }
+    .nav__logo { font-family: var(--font-display); font-weight: 700; font-size: 1.35rem; color: var(--text-primary); letter-spacing: -0.02em; display: flex; align-items: center; gap: 0.6rem; }
+    .nav__logo-mark { width: 32px; height: 32px; border-radius: 8px; background: linear-gradient(135deg, var(--accent-teal), var(--accent-cyan)); display: flex; align-items: center; justify-content: center; position: relative; overflow: hidden; }
+    .nav__logo-mark::after { content: ''; position: absolute; width: 18px; height: 18px; border: 2.5px solid rgba(255,255,255,0.9); border-radius: 50%; clip-path: polygon(0 0, 100% 0, 100% 60%, 0 60%); transform: rotate(-20deg); top: 5px; left: 7px; }
+    .nav__links { display: flex; align-items: center; gap: 2.5rem; list-style: none; }
+    .nav__link { font-family: var(--font-display); font-size: 0.875rem; font-weight: 500; color: var(--text-secondary); letter-spacing: 0.01em; transition: color 0.3s ease; position: relative; }
+    .nav__link::after { content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 1.5px; background: var(--accent-teal); transition: width 0.3s var(--ease-out-expo); }
+    .nav__link:hover { color: var(--text-primary); }
+    .nav__link:hover::after { width: 100%; }
+    .nav__link--active { color: var(--accent-teal); }
+    .nav__link--active::after { width: 100%; }
+    .nav__cta { font-family: var(--font-display); font-size: 0.85rem; font-weight: 600; color: var(--bg-deep); background: linear-gradient(135deg, var(--accent-teal), var(--accent-cyan)); padding: 0.6rem 1.5rem; border-radius: 100px; transition: transform 0.3s var(--ease-out-expo), box-shadow 0.3s ease; }
+    .nav__cta:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(34, 211, 167, 0.3); }
+    .nav__toggle { display: none; flex-direction: column; gap: 5px; padding: 4px; }
+    .nav__toggle span { display: block; width: 24px; height: 2px; background: var(--text-primary); border-radius: 2px; transition: transform 0.3s ease, opacity 0.3s ease; }
+
+    /* BUTTONS */
+    .btn { font-family: var(--font-display); font-weight: 600; font-size: 0.95rem; padding: 0.9rem 2rem; border-radius: 100px; display: inline-flex; align-items: center; gap: 0.5rem; transition: all 0.35s var(--ease-out-expo); }
+    .btn--primary { color: var(--bg-deep); background: linear-gradient(135deg, var(--accent-teal), var(--accent-cyan)); box-shadow: 0 4px 20px rgba(34, 211, 167, 0.25); }
+    .btn--primary:hover { transform: translateY(-3px); box-shadow: 0 12px 40px rgba(34, 211, 167, 0.35); }
+    .btn--ghost { color: var(--text-primary); border: 1.5px solid var(--border-accent); background: transparent; }
+    .btn--ghost:hover { background: var(--accent-glow); border-color: var(--accent-teal); transform: translateY(-2px); }
+    .btn__arrow { transition: transform 0.3s var(--ease-out-expo); }
+    .btn:hover .btn__arrow { transform: translateX(4px); }
+
+    /* SECTION HEADERS */
+    .section-eyebrow { font-family: var(--font-display); font-size: 0.75rem; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent-teal); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.75rem; }
+    .section-eyebrow::before { content: ''; width: 20px; height: 1.5px; background: var(--accent-teal); }
+    .section-title { font-family: var(--font-display); font-size: clamp(2rem, 4vw, 3.2rem); font-weight: 700; line-height: 1.15; letter-spacing: -0.025em; color: var(--text-primary); margin-bottom: 1.25rem; }
+    .section-subtitle { font-size: 1.15rem; color: var(--text-secondary); max-width: 560px; line-height: 1.7; }
+
+    .gradient-text {
+      background: linear-gradient(135deg, var(--accent-teal) 0%, var(--accent-cyan) 50%, var(--accent-blue) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* PAGE HERO */
+    .page-hero {
+      padding-top: 10rem;
+      padding-bottom: 5rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .page-hero__bg { position: absolute; inset: 0; overflow: hidden; }
+    .page-hero__orb { position: absolute; border-radius: 50%; filter: blur(100px); opacity: 0.3; }
+    .page-hero__orb--1 { width: 500px; height: 500px; background: radial-gradient(circle, var(--accent-teal), transparent 70%); top: -20%; right: -5%; }
+    .page-hero__orb--2 { width: 400px; height: 400px; background: radial-gradient(circle, var(--accent-blue), transparent 70%); bottom: -30%; left: -10%; opacity: 0.15; }
+
+    .page-hero__content { position: relative; z-index: 2; max-width: 700px; }
+
+    .page-hero__title {
+      font-family: var(--font-display);
+      font-size: clamp(2.5rem, 5.5vw, 4.5rem);
+      font-weight: 800;
+      line-height: 1.08;
+      letter-spacing: -0.03em;
+      color: var(--text-primary);
+      margin-bottom: 1.5rem;
+      opacity: 0;
+      animation: fadeUp 0.9s var(--ease-out-expo) 0.2s forwards;
+    }
+
+    .page-hero__subtitle {
+      font-size: 1.2rem;
+      line-height: 1.75;
+      color: var(--text-secondary);
+      max-width: 550px;
+      opacity: 0;
+      animation: fadeUp 0.9s var(--ease-out-expo) 0.4s forwards;
+    }
+
+    /* STORY SECTION */
+    .story {
+      background: var(--bg-surface);
+      border-top: 1px solid var(--border-subtle);
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .story__grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+    }
+
+    .story__text p {
+      font-size: 1.05rem;
+      line-height: 1.8;
+      color: var(--text-secondary);
+      margin-bottom: 1.5rem;
+    }
+
+    .story__text p:last-child {
+      margin-bottom: 0;
+    }
+
+    .story__highlight {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 20px;
+      padding: 2.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .story__highlight::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 3px;
+      background: linear-gradient(90deg, var(--accent-teal), var(--accent-cyan), var(--accent-blue));
+    }
+
+    .story__highlight-stat {
+      font-family: var(--font-display);
+      font-size: 3.5rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, var(--accent-teal), var(--accent-cyan));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      line-height: 1;
+      margin-bottom: 0.75rem;
+    }
+
+    .story__highlight-label {
+      font-family: var(--font-display);
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      margin-bottom: 0.5rem;
+    }
+
+    .story__highlight-desc {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    .story__highlight-divider {
+      width: 100%;
+      height: 1px;
+      background: var(--border-subtle);
+      margin: 1.75rem 0;
+    }
+
+    /* HOW WE WORK */
+    .how-we-work__grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      margin-top: 3rem;
+    }
+
+    .how-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 16px;
+      padding: 2.25rem;
+      transition: all 0.4s var(--ease-out-expo);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .how-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--accent-teal), transparent);
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+
+    .how-card:hover {
+      background: var(--bg-card-hover);
+      border-color: var(--border-accent);
+      transform: translateY(-6px);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    }
+
+    .how-card:hover::before { opacity: 1; }
+
+    .how-card__icon {
+      font-size: 1.8rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .how-card h3 {
+      font-family: var(--font-display);
+      font-size: 1.15rem;
+      font-weight: 650;
+      color: var(--text-primary);
+      margin-bottom: 0.6rem;
+    }
+
+    .how-card p {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      line-height: 1.65;
+    }
+
+    /* VALUES */
+    .values {
+      background: var(--bg-surface);
+      border-top: 1px solid var(--border-subtle);
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .values__grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+      margin-top: 3rem;
+    }
+
+    .value-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 14px;
+      padding: 2rem;
+      transition: border-color 0.3s ease;
+    }
+
+    .value-card:hover { border-color: var(--border-accent); }
+
+    .value-card__icon { font-size: 1.5rem; margin-bottom: 1rem; }
+
+    .value-card h3 {
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      font-weight: 650;
+      color: var(--text-primary);
+      margin-bottom: 0.5rem;
+    }
+
+    .value-card p {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      line-height: 1.65;
+    }
+
+    /* PROMISE BANNER */
+    .promise {
+      padding: 5rem 0;
+      text-align: center;
+      position: relative;
+    }
+
+    .promise__inner {
+      position: relative;
+      background: linear-gradient(135deg, rgba(34, 211, 167, 0.06), rgba(6, 182, 212, 0.06));
+      border: 1px solid var(--border-accent);
+      border-radius: 24px;
+      padding: 4rem 3rem;
+      overflow: hidden;
+    }
+
+    .promise__inner::before {
+      content: '';
+      position: absolute;
+      top: -200px;
+      right: -200px;
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, rgba(34, 211, 167, 0.08), transparent 60%);
+      pointer-events: none;
+    }
+
+    .promise__quote {
+      font-family: var(--font-display);
+      font-size: clamp(1.5rem, 3vw, 2.2rem);
+      font-weight: 600;
+      line-height: 1.35;
+      color: var(--text-primary);
+      max-width: 750px;
+      margin: 0 auto 1rem;
+      position: relative;
+    }
+
+    .promise__sub {
+      font-size: 1.05rem;
+      color: var(--text-muted);
+    }
+
+    /* CTA */
+    .cta { padding: 8rem 0; text-align: center; position: relative; overflow: hidden; }
+    .cta__bg-orb { position: absolute; width: 700px; height: 700px; border-radius: 50%; background: radial-gradient(circle, rgba(34, 211, 167, 0.12), transparent 65%); top: 50%; left: 50%; transform: translate(-50%, -50%); filter: blur(80px); pointer-events: none; }
+    .cta .section-title { font-size: clamp(2.2rem, 5vw, 3.8rem); max-width: 700px; margin: 0 auto 1rem; }
+    .cta .section-subtitle { max-width: 500px; margin: 0 auto 2.5rem; text-align: center; }
+    .cta__actions { display: flex; align-items: center; justify-content: center; gap: 1rem; flex-wrap: wrap; position: relative; z-index: 2; }
+
+    /* FOOTER */
+    .footer { border-top: 1px solid var(--border-subtle); padding: 3rem 0; }
+    .footer__inner { display: flex; align-items: center; justify-content: space-between; }
+    .footer__brand { font-family: var(--font-display); font-weight: 600; font-size: 0.9rem; color: var(--text-muted); }
+    .footer__links { display: flex; gap: 2rem; list-style: none; }
+    .footer__link { font-family: var(--font-display); font-size: 0.8rem; font-weight: 500; color: var(--text-muted); transition: color 0.3s ease; }
+    .footer__link:hover { color: var(--accent-teal); }
+    .footer__nz { font-family: var(--font-display); font-size: 0.8rem; color: var(--text-muted); display: flex; align-items: center; gap: 0.4rem; }
+
+    /* RESPONSIVE */
+    @media (max-width: 900px) {
+      .story__grid { grid-template-columns: 1fr; gap: 2.5rem; }
+      .how-we-work__grid { grid-template-columns: 1fr; }
+      .values__grid { grid-template-columns: 1fr; }
+      .nav__links { display: none; }
+      .nav__toggle { display: flex; }
+      .nav__links.open {
+        display: flex; flex-direction: column; position: absolute; top: 100%; left: 0; right: 0;
+        background: rgba(6, 11, 24, 0.97); backdrop-filter: blur(20px); padding: 2rem; gap: 1.5rem;
+        border-bottom: 1px solid var(--border-subtle);
+      }
+    }
+
+    @media (max-width: 600px) {
+      section { padding: 5rem 0; }
+      .container { padding: 0 1.25rem; }
+      .page-hero { padding-top: 8rem; }
+      .promise__inner { padding: 2.5rem 1.5rem; }
+      .footer__inner { flex-direction: column; gap: 1.5rem; text-align: center; }
+    }
+
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 9999;
+      opacity: 0.025;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-repeat: repeat;
+      background-size: 200px 200px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="nav" id="nav">
+    <div class="container nav__inner">
+      <a href="index.html" class="nav__logo">
+        <span class="nav__logo-mark"></span>
+        Flowstate
+      </a>
+      <ul class="nav__links" id="navLinks">
+        <li><a href="services.html" class="nav__link">Services</a></li>
+        <li><a href="about.html" class="nav__link nav__link--active">About</a></li>
+        <li><a href="calculator.html" class="nav__link">ROI Calculator</a></li>
+        <li><a href="contact.html" class="nav__cta">Get in Touch</a></li>
+      </ul>
+      <button class="nav__toggle" id="navToggle" aria-label="Toggle navigation">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- PAGE HERO -->
+  <section class="page-hero">
+    <div class="page-hero__bg">
+      <div class="page-hero__orb page-hero__orb--1"></div>
+      <div class="page-hero__orb page-hero__orb--2"></div>
+    </div>
+    <div class="container page-hero__content">
+      <p class="section-eyebrow" style="opacity:0; animation: fadeUp 0.8s var(--ease-out-expo) 0.1s forwards;">About Flowstate</p>
+      <h1 class="page-hero__title">
+        One person. One mission.<br>
+        <span class="gradient-text">Better workflows for NZ.</span>
+      </h1>
+      <p class="page-hero__subtitle">
+        Flowstate Solutions is a solo operation built on a simple belief: every business deserves systems that actually work for them, not against them.
+      </p>
+    </div>
+  </section>
+
+  <!-- THE STORY -->
+  <section class="story">
+    <div class="container">
+      <div class="story__grid">
+        <div class="story__text reveal">
+          <p class="section-eyebrow">The Story</p>
+          <h2 class="section-title">Why Flowstate exists</h2>
+          <p>
+            Too many NZ businesses are stuck doing things the hard way. Not because they don't care, but because they've never had someone sit down with them and say: "Here's where you're wasting time, here's where you're losing money, and here's how we fix it."
+          </p>
+          <p>
+            That's exactly what Flowstate Solutions does. I started this business because I saw too many good companies held back by messy processes, disconnected tools, and workflows that were designed by accident rather than on purpose.
+          </p>
+          <p>
+            I'm not a massive agency. I'm one person who genuinely cares about getting this right. And honestly? That's an advantage. You get my full attention, every time.
+          </p>
+        </div>
+        <div class="story__highlight reveal reveal-delay-2">
+          <div class="story__highlight-stat">100%</div>
+          <div class="story__highlight-label">Direct access</div>
+          <p class="story__highlight-desc">No account managers, no middlemen. You talk directly to the person doing the work. Always.</p>
+          <div class="story__highlight-divider"></div>
+          <div class="story__highlight-stat">&#x1F1F3;&#x1F1FF;</div>
+          <div class="story__highlight-label">Based in New Zealand</div>
+          <p class="story__highlight-desc">Working remotely across the country (and potentially the globe). Same timezone, real conversations.</p>
+          <div class="story__highlight-divider"></div>
+          <div class="story__highlight-stat">$0</div>
+          <div class="story__highlight-label">Cost of a first chat</div>
+          <p class="story__highlight-desc">The initial consultation is always free. If we're not the right fit, I'll tell you. No wasted time for either of us.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW WE WORK -->
+  <section class="how-we-work">
+    <div class="container">
+      <div class="reveal">
+        <p class="section-eyebrow">How We Work</p>
+        <h2 class="section-title">No surprises. Just good work.</h2>
+        <p class="section-subtitle">Here's what you can expect when you work with Flowstate.</p>
+      </div>
+      <div class="how-we-work__grid">
+        <div class="how-card reveal reveal-delay-1">
+          <div class="how-card__icon">&#x1F4F1;</div>
+          <h3>Fully Remote</h3>
+          <p>Meetings happen over Zoom. Communication happens over email. Everything is designed to fit around your schedule, not the other way around.</p>
+        </div>
+        <div class="how-card reveal reveal-delay-2">
+          <div class="how-card__icon">&#x1F4CB;</div>
+          <h3>Clear From Day One</h3>
+          <p>You'll always know what's happening, what it costs, and what comes next. If something changes, you'll hear about it before it becomes a problem.</p>
+        </div>
+        <div class="how-card reveal reveal-delay-3">
+          <div class="how-card__icon">&#x1F91D;</div>
+          <h3>Built to Last</h3>
+          <p>I don't build things that fall apart the moment I step away. Everything I create is documented, handed over, and designed to keep working without me.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- VALUES -->
+  <section class="values">
+    <div class="container">
+      <div class="reveal">
+        <p class="section-eyebrow">Our Values</p>
+        <h2 class="section-title">What I actually believe in.</h2>
+        <p class="section-subtitle">Not the corporate poster version. The real ones that guide every decision I make.</p>
+      </div>
+      <div class="values__grid">
+        <div class="value-card reveal reveal-delay-1">
+          <div class="value-card__icon">&#x1F4A1;</div>
+          <h3>Radical Honesty</h3>
+          <p>If automation isn't the answer, I'll tell you. If a free tool does the job just as well as a paid one, I'll recommend the free one. My reputation matters more than a quick sale.</p>
+        </div>
+        <div class="value-card reveal reveal-delay-2">
+          <div class="value-card__icon">&#x1F50E;</div>
+          <h3>Full Transparency</h3>
+          <p>No black boxes. You'll understand exactly what I build, why I built it, and how it works. It's your business, you should understand every part of it.</p>
+        </div>
+        <div class="value-card reveal reveal-delay-3">
+          <div class="value-card__icon">&#x1F3AF;</div>
+          <h3>Relationships First</h3>
+          <p>I want clients for life, not one off projects. That means investing in your success, checking in after we're "done," and being there when things evolve.</p>
+        </div>
+        <div class="value-card reveal reveal-delay-4">
+          <div class="value-card__icon">&#x2696;&#xFE0F;</div>
+          <h3>Vendor Neutral</h3>
+          <p>I don't get kickbacks from software companies. I recommend what's best for you. If that means sticking with the tools you already have, that's the advice you'll get.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROMISE BANNER -->
+  <section class="promise">
+    <div class="container">
+      <div class="promise__inner reveal">
+        <p class="promise__quote">
+          &ldquo;I'd rather give you the <span class="gradient-text">right advice</span> than sell you something you don't need.&rdquo;
+        </p>
+        <p class="promise__sub">That's not a tagline. That's a promise.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta">
+    <div class="cta__bg-orb"></div>
+    <div class="container">
+      <div class="reveal">
+        <p class="section-eyebrow" style="justify-content: center;">Let's Talk</p>
+        <h2 class="section-title" style="text-align: center;">Want to see if we're<br>the right fit?</h2>
+        <p class="section-subtitle">The first conversation is always free. No pitch, no pressure. Just an honest chat about your business and whether I can actually help.</p>
+      </div>
+      <div class="cta__actions reveal reveal-delay-2">
+        <a href="contact.html" class="btn btn--primary">
+          Book a Free Consult
+          <span class="btn__arrow">&rarr;</span>
+        </a>
+        <a href="services.html" class="btn btn--ghost">
+          View Our Services
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container footer__inner">
+      <p class="footer__brand">&copy; 2026 Flowstate Solutions</p>
+      <ul class="footer__links">
+        <li><a href="services.html" class="footer__link">Services</a></li>
+        <li><a href="about.html" class="footer__link">About</a></li>
+        <li><a href="calculator.html" class="footer__link">ROI Calculator</a></li>
+        <li><a href="contact.html" class="footer__link">Contact</a></li>
+      </ul>
+      <p class="footer__nz">Based in New Zealand &#x1F1F3;&#x1F1FF; &middot; Working Remotely</p>
+    </div>
+  </footer>
+
+  <script>
+    const revealEls = document.querySelectorAll('.reveal');
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
+    }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+    revealEls.forEach(el => revealObserver.observe(el));
+
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 60);
+    }, { passive: true });
+
+    const navToggle = document.getElementById('navToggle');
+    const navLinks = document.getElementById('navLinks');
+    navToggle.addEventListener('click', () => navLinks.classList.toggle('open'));
+    navLinks.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => navLinks.classList.remove('open'));
+    });
+  </script>
+</body>
+</html>
