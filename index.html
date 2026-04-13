@@ -8,6 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=Crimson+Pro:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
   <style>
     /* ═══════════════════════════════════════════
        CSS CUSTOM PROPERTIES
@@ -140,28 +141,11 @@
     }
 
     .nav__logo-mark {
-      width: 32px;
-      height: 32px;
-      border-radius: 8px;
-      background: linear-gradient(135deg, var(--accent-teal), var(--accent-cyan));
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .nav__logo-mark::after {
-      content: '';
-      position: absolute;
-      width: 18px;
-      height: 18px;
-      border: 2.5px solid rgba(255,255,255,0.9);
-      border-radius: 50%;
-      clip-path: polygon(0 0, 100% 0, 100% 60%, 0 60%);
-      transform: rotate(-20deg);
-      top: 5px;
-      left: 7px;
+      width: 42px;
+      height: 28px;
+      display: block;
+      flex-shrink: 0;
+      filter: drop-shadow(0 2px 6px rgba(59, 130, 246, 0.25));
     }
 
     .nav__links {
@@ -1065,7 +1049,7 @@
   <nav class="nav" id="nav">
     <div class="container nav__inner">
       <a href="#" class="nav__logo">
-        <span class="nav__logo-mark"></span>
+        <img src="logo.svg" alt="" class="nav__logo-mark" width="42" height="28">
         Flowstate
       </a>
       <ul class="nav__links" id="navLinks">
