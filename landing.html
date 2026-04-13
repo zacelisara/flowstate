@@ -1,0 +1,953 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Flowstate Solutions — Stop paying for busy work.</title>
+  <meta name="description" content="Flowstate Solutions helps NZ businesses cut the busy work. Honest workflow audits, clean process design, and smart automation with clear ROI — from one person who actually cares.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=Crimson+Pro:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <style>
+    :root {
+      --bg-deep: #060B18;
+      --bg-surface: #0B1221;
+      --bg-card: #111B2E;
+      --bg-card-hover: #162035;
+      --accent-teal: #22D3A7;
+      --accent-cyan: #06B6D4;
+      --accent-blue: #3B82F6;
+      --accent-glow: rgba(34, 211, 167, 0.15);
+      --text-primary: #F1F5F9;
+      --text-secondary: #B0C4D8;
+      --text-muted: #8494A9;
+      --border-subtle: rgba(148, 163, 184, 0.08);
+      --border-accent: rgba(34, 211, 167, 0.2);
+      --font-display: 'Bricolage Grotesque', sans-serif;
+      --font-body: 'Crimson Pro', Georgia, serif;
+      --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+      --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+    body { font-family: var(--font-body); font-weight: 400; font-size: 1.125rem; line-height: 1.7; color: var(--text-secondary); background: var(--bg-deep); overflow-x: hidden; }
+    img, svg { max-width: 100%; display: block; }
+    a { color: inherit; text-decoration: none; }
+    button { font: inherit; cursor: pointer; border: none; background: none; }
+    ::selection { background: rgba(34, 211, 167, 0.3); color: var(--text-primary); }
+
+    .container { width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
+    section { position: relative; padding: 7rem 0; }
+
+    .reveal { opacity: 0; transform: translateY(40px); transition: opacity 0.9s var(--ease-out-expo), transform 0.9s var(--ease-out-expo); }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal-delay-1 { transition-delay: 0.08s; }
+    .reveal-delay-2 { transition-delay: 0.16s; }
+    .reveal-delay-3 { transition-delay: 0.24s; }
+    .reveal-delay-4 { transition-delay: 0.32s; }
+
+    /* NAV */
+    .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 1.25rem 0; transition: background 0.4s ease, backdrop-filter 0.4s ease, padding 0.4s ease; }
+    .nav.scrolled { background: rgba(6, 11, 24, 0.85); backdrop-filter: blur(20px) saturate(1.2); -webkit-backdrop-filter: blur(20px) saturate(1.2); padding: 0.75rem 0; border-bottom: 1px solid var(--border-subtle); }
+    .nav__inner { display: flex; align-items: center; justify-content: space-between; }
+    .nav__logo { font-family: var(--font-display); font-weight: 700; font-size: 1.35rem; color: var(--text-primary); letter-spacing: -0.02em; display: flex; align-items: center; gap: 0.6rem; }
+    .nav__logo-mark { width: 64px; height: 30px; display: block; flex-shrink: 0; filter: drop-shadow(0 2px 6px rgba(59, 130, 246, 0.25)); }
+    .nav__links { display: flex; align-items: center; gap: 2.5rem; list-style: none; }
+    .nav__link { font-family: var(--font-display); font-size: 0.875rem; font-weight: 500; color: var(--text-secondary); letter-spacing: 0.01em; transition: color 0.3s ease; position: relative; cursor: pointer; }
+    .nav__link::after { content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 1.5px; background: var(--accent-teal); transition: width 0.3s var(--ease-out-expo); }
+    .nav__link:hover { color: var(--text-primary); }
+    .nav__link:hover::after { width: 100%; }
+    .nav__cta { font-family: var(--font-display); font-size: 0.85rem; font-weight: 600; color: var(--bg-deep); background: linear-gradient(135deg, var(--accent-teal), var(--accent-cyan)); padding: 0.6rem 1.5rem; border-radius: 100px; transition: transform 0.3s var(--ease-out-expo), box-shadow 0.3s ease; cursor: pointer; }
+    .nav__cta:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(34, 211, 167, 0.3); }
+    .nav__toggle { display: none; flex-direction: column; gap: 5px; padding: 4px; }
+    .nav__toggle span { display: block; width: 24px; height: 2px; background: var(--text-primary); border-radius: 2px; transition: transform 0.3s ease, opacity 0.3s ease; }
+
+    /* BUTTONS */
+    .btn { font-family: var(--font-display); font-weight: 600; font-size: 0.95rem; padding: 0.95rem 2rem; border-radius: 100px; display: inline-flex; align-items: center; gap: 0.5rem; transition: all 0.35s var(--ease-out-expo); cursor: pointer; }
+    .btn--primary { color: var(--bg-deep); background: linear-gradient(135deg, var(--accent-teal), var(--accent-cyan)); box-shadow: 0 4px 20px rgba(34, 211, 167, 0.25); }
+    .btn--primary:hover { transform: translateY(-3px); box-shadow: 0 12px 40px rgba(34, 211, 167, 0.4); }
+    .btn--ghost { color: var(--text-primary); border: 1.5px solid var(--border-accent); background: transparent; }
+    .btn--ghost:hover { background: var(--accent-glow); border-color: var(--accent-teal); transform: translateY(-2px); }
+    .btn__arrow { transition: transform 0.3s var(--ease-out-expo); width: 16px; height: 16px; }
+    .btn:hover .btn__arrow { transform: translateX(4px); }
+
+    /* SECTION HEADERS */
+    .section-eyebrow { font-family: var(--font-display); font-size: 0.75rem; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent-teal); margin-bottom: 1rem; display: inline-flex; align-items: center; gap: 0.75rem; }
+    .section-eyebrow::before { content: ''; width: 20px; height: 1.5px; background: var(--accent-teal); }
+    .section-title { font-family: var(--font-display); font-size: clamp(2rem, 4vw, 3.2rem); font-weight: 700; line-height: 1.15; letter-spacing: -0.025em; color: var(--text-primary); margin-bottom: 1.25rem; }
+    .section-subtitle { font-size: 1.15rem; color: var(--text-secondary); max-width: 620px; line-height: 1.7; }
+
+    .gradient-text {
+      background: linear-gradient(135deg, var(--accent-teal) 0%, var(--accent-cyan) 50%, var(--accent-blue) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-12px); }
+    }
+
+    @keyframes pulse-dot {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.4; transform: scale(1.2); }
+    }
+
+    /* HERO */
+    .hero {
+      padding-top: 11rem;
+      padding-bottom: 5rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .hero__bg { position: absolute; inset: 0; overflow: hidden; pointer-events: none; }
+    .hero__orb { position: absolute; border-radius: 50%; filter: blur(100px); }
+    .hero__orb--1 { width: 560px; height: 560px; background: radial-gradient(circle, var(--accent-teal), transparent 70%); top: -20%; right: -8%; opacity: 0.3; }
+    .hero__orb--2 { width: 420px; height: 420px; background: radial-gradient(circle, var(--accent-blue), transparent 70%); bottom: -25%; left: -8%; opacity: 0.18; }
+    .hero__grid-lines {
+      position: absolute; inset: 0;
+      background-image:
+        linear-gradient(rgba(148, 163, 184, 0.04) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(148, 163, 184, 0.04) 1px, transparent 1px);
+      background-size: 60px 60px;
+      mask-image: radial-gradient(ellipse at 50% 30%, black 30%, transparent 75%);
+      -webkit-mask-image: radial-gradient(ellipse at 50% 30%, black 30%, transparent 75%);
+    }
+
+    .hero__inner { position: relative; z-index: 2; display: grid; grid-template-columns: 1.1fr 0.9fr; gap: 4rem; align-items: center; }
+
+    .hero__badge {
+      display: inline-flex; align-items: center; gap: 0.6rem;
+      padding: 0.45rem 0.9rem;
+      border-radius: 100px;
+      background: var(--accent-glow);
+      border: 1px solid var(--border-accent);
+      font-family: var(--font-display);
+      font-size: 0.78rem; font-weight: 500;
+      color: var(--text-secondary);
+      margin-bottom: 1.75rem;
+      opacity: 0; animation: fadeUp 0.8s var(--ease-out-expo) 0.1s forwards;
+    }
+    .hero__badge-dot { width: 7px; height: 7px; border-radius: 50%; background: var(--accent-teal); box-shadow: 0 0 10px var(--accent-teal); animation: pulse-dot 2s ease-in-out infinite; }
+
+    .hero__title {
+      font-family: var(--font-display);
+      font-size: clamp(2.5rem, 5.2vw, 4.3rem);
+      font-weight: 800;
+      line-height: 1.05;
+      letter-spacing: -0.035em;
+      color: var(--text-primary);
+      margin-bottom: 1.75rem;
+      opacity: 0; animation: fadeUp 0.9s var(--ease-out-expo) 0.2s forwards;
+    }
+
+    .hero__subtitle {
+      font-size: 1.2rem;
+      line-height: 1.7;
+      color: var(--text-secondary);
+      max-width: 540px;
+      margin-bottom: 2.25rem;
+      opacity: 0; animation: fadeUp 0.9s var(--ease-out-expo) 0.35s forwards;
+    }
+
+    .hero__actions { display: flex; gap: 1rem; flex-wrap: wrap; margin-bottom: 2.5rem; opacity: 0; animation: fadeUp 0.9s var(--ease-out-expo) 0.5s forwards; }
+
+    .hero__proof { display: flex; align-items: center; gap: 1.25rem; opacity: 0; animation: fadeUp 0.9s var(--ease-out-expo) 0.65s forwards; }
+    .hero__proof-avatars { display: flex; }
+    .hero__proof-avatar {
+      width: 36px; height: 36px; border-radius: 50%;
+      border: 2px solid var(--bg-deep);
+      margin-left: -10px;
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--font-display); font-size: 0.8rem; font-weight: 700;
+      color: var(--bg-deep);
+    }
+    .hero__proof-avatar:first-child { margin-left: 0; }
+    .hero__proof-avatar:nth-child(1) { background: linear-gradient(135deg, #22D3A7, #06B6D4); }
+    .hero__proof-avatar:nth-child(2) { background: linear-gradient(135deg, #06B6D4, #3B82F6); }
+    .hero__proof-avatar:nth-child(3) { background: linear-gradient(135deg, #3B82F6, #8B5CF6); }
+    .hero__proof-avatar:nth-child(4) { background: linear-gradient(135deg, #F59E0B, #EF4444); }
+    .hero__proof-text { font-family: var(--font-display); font-size: 0.85rem; color: var(--text-muted); line-height: 1.4; }
+    .hero__proof-text strong { color: var(--text-primary); font-weight: 600; }
+
+    /* HERO VISUAL — stacked dashboard cards */
+    .hero__visual {
+      position: relative;
+      opacity: 0;
+      animation: fadeUp 1s var(--ease-out-expo) 0.4s forwards;
+    }
+
+    .hero-card {
+      background: linear-gradient(180deg, var(--bg-card) 0%, var(--bg-surface) 100%);
+      border: 1px solid var(--border-subtle);
+      border-radius: 20px;
+      padding: 1.5rem;
+      box-shadow: 0 30px 80px rgba(0,0,0,0.4), 0 0 0 1px rgba(148, 163, 184, 0.03);
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(34, 211, 167, 0.4), transparent);
+    }
+    .hero-card--primary { animation: float 6s ease-in-out infinite; }
+    .hero-card--floating-1 {
+      position: absolute; top: -2rem; right: -2rem; width: 240px;
+      animation: float 7s ease-in-out infinite 1s;
+      z-index: 3;
+    }
+    .hero-card--floating-2 {
+      position: absolute; bottom: -1.5rem; left: -2rem; width: 260px;
+      animation: float 8s ease-in-out infinite 0.5s;
+      z-index: 3;
+    }
+    @media (max-width: 1100px) {
+      .hero-card--floating-1 { right: -1rem; width: 200px; }
+      .hero-card--floating-2 { left: -1rem; width: 210px; }
+    }
+
+    .hc__header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 1.25rem; }
+    .hc__title { font-family: var(--font-display); font-size: 0.85rem; font-weight: 600; color: var(--text-primary); display: flex; align-items: center; gap: 0.5rem; }
+    .hc__title-icon { width: 28px; height: 28px; border-radius: 8px; background: var(--accent-glow); border: 1px solid var(--border-accent); display: flex; align-items: center; justify-content: center; color: var(--accent-teal); }
+    .hc__title-icon svg { width: 14px; height: 14px; }
+    .hc__pill { font-family: var(--font-display); font-size: 0.68rem; font-weight: 600; color: var(--accent-teal); background: var(--accent-glow); border: 1px solid var(--border-accent); padding: 0.2rem 0.55rem; border-radius: 100px; letter-spacing: 0.05em; text-transform: uppercase; }
+
+    .hc__metric { font-family: var(--font-display); font-size: 2rem; font-weight: 800; color: var(--text-primary); line-height: 1; margin-bottom: 0.35rem; letter-spacing: -0.02em; }
+    .hc__metric-label { font-family: var(--font-display); font-size: 0.78rem; color: var(--text-muted); margin-bottom: 1rem; }
+    .hc__delta { display: inline-flex; align-items: center; gap: 0.3rem; font-family: var(--font-display); font-size: 0.72rem; font-weight: 600; color: var(--accent-teal); }
+    .hc__delta svg { width: 12px; height: 12px; }
+
+    .hc__chart { height: 70px; margin-top: 0.75rem; position: relative; }
+    .hc__chart svg { width: 100%; height: 100%; }
+
+    .hc__row { display: flex; align-items: center; gap: 0.75rem; padding: 0.65rem 0; border-top: 1px solid var(--border-subtle); }
+    .hc__row:first-of-type { border-top: none; padding-top: 0; }
+    .hc__row-icon { width: 28px; height: 28px; border-radius: 8px; background: rgba(34, 211, 167, 0.1); display: flex; align-items: center; justify-content: center; color: var(--accent-teal); flex-shrink: 0; }
+    .hc__row-icon svg { width: 14px; height: 14px; }
+    .hc__row-text { flex: 1; min-width: 0; font-family: var(--font-display); font-size: 0.78rem; color: var(--text-secondary); }
+    .hc__row-text strong { color: var(--text-primary); font-weight: 600; }
+    .hc__row-status { font-family: var(--font-display); font-size: 0.68rem; font-weight: 600; color: var(--accent-teal); }
+
+    /* LOGO STRIP */
+    .logos { padding: 3rem 0; border-top: 1px solid var(--border-subtle); border-bottom: 1px solid var(--border-subtle); background: rgba(11, 18, 33, 0.5); }
+    .logos__label { font-family: var(--font-display); font-size: 0.72rem; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase; color: var(--text-muted); text-align: center; margin-bottom: 1.5rem; }
+    .logos__grid { display: flex; align-items: center; justify-content: space-between; gap: 2rem; flex-wrap: wrap; }
+    .logo-item { font-family: var(--font-display); font-weight: 700; font-size: 1.1rem; color: var(--text-muted); letter-spacing: -0.01em; opacity: 0.65; transition: opacity 0.3s ease, color 0.3s ease; display: flex; align-items: center; gap: 0.5rem; }
+    .logo-item:hover { opacity: 1; color: var(--text-secondary); }
+    .logo-item svg { width: 20px; height: 20px; }
+
+    /* PROBLEM SECTION */
+    .problem { padding: 8rem 0 6rem; }
+    .problem__header { text-align: center; max-width: 700px; margin: 0 auto 4rem; }
+    .problem__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+    .problem-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 16px;
+      padding: 2rem;
+      transition: all 0.4s var(--ease-out-expo);
+      position: relative;
+    }
+    .problem-card:hover { border-color: rgba(239, 68, 68, 0.3); transform: translateY(-4px); }
+    .problem-card__icon { width: 44px; height: 44px; border-radius: 12px; background: rgba(239, 68, 68, 0.08); border: 1px solid rgba(239, 68, 68, 0.2); display: flex; align-items: center; justify-content: center; color: #F87171; margin-bottom: 1.25rem; }
+    .problem-card__icon svg { width: 20px; height: 20px; }
+    .problem-card h3 { font-family: var(--font-display); font-size: 1.15rem; font-weight: 650; color: var(--text-primary); margin-bottom: 0.5rem; }
+    .problem-card p { font-size: 0.98rem; color: var(--text-muted); line-height: 1.65; }
+
+    /* SOLUTION */
+    .solution {
+      background: var(--bg-surface);
+      border-top: 1px solid var(--border-subtle);
+      border-bottom: 1px solid var(--border-subtle);
+    }
+    .solution__header { text-align: center; max-width: 700px; margin: 0 auto 4rem; }
+    .solution__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; }
+    .solution-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 20px;
+      padding: 2.5rem 2rem;
+      transition: all 0.4s var(--ease-out-expo);
+      position: relative;
+      overflow: hidden;
+    }
+    .solution-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, transparent, var(--accent-teal), transparent); opacity: 0; transition: opacity 0.4s ease; }
+    .solution-card:hover { background: var(--bg-card-hover); border-color: var(--border-accent); transform: translateY(-6px); box-shadow: 0 20px 60px rgba(0,0,0,0.3); }
+    .solution-card:hover::before { opacity: 1; }
+    .solution-card__icon { width: 52px; height: 52px; border-radius: 14px; background: var(--accent-glow); border: 1px solid var(--border-accent); display: flex; align-items: center; justify-content: center; color: var(--accent-teal); margin-bottom: 1.5rem; }
+    .solution-card__icon svg { width: 22px; height: 22px; }
+    .solution-card__tag { font-family: var(--font-display); font-size: 0.7rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent-teal); margin-bottom: 0.5rem; }
+    .solution-card h3 { font-family: var(--font-display); font-size: 1.35rem; font-weight: 700; color: var(--text-primary); margin-bottom: 0.75rem; letter-spacing: -0.015em; }
+    .solution-card p { font-size: 1rem; color: var(--text-secondary); line-height: 1.65; margin-bottom: 1.5rem; }
+    .solution-card__link { font-family: var(--font-display); font-size: 0.85rem; font-weight: 600; color: var(--accent-teal); display: inline-flex; align-items: center; gap: 0.4rem; transition: gap 0.3s var(--ease-out-expo); cursor: pointer; }
+    .solution-card__link svg { width: 14px; height: 14px; }
+    .solution-card:hover .solution-card__link { gap: 0.65rem; }
+
+    /* HOW IT WORKS */
+    .how { padding: 8rem 0; }
+    .how__header { max-width: 700px; margin-bottom: 4rem; }
+    .how__steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem; position: relative; }
+    .how__steps::before {
+      content: ''; position: absolute; top: 34px; left: 10%; right: 10%; height: 1px;
+      background: linear-gradient(90deg, var(--accent-teal), var(--accent-cyan), var(--accent-blue), transparent);
+      opacity: 0.3;
+    }
+    .how-step { position: relative; }
+    .how-step__number {
+      width: 68px; height: 68px; border-radius: 50%;
+      background: var(--bg-card);
+      border: 2px solid var(--border-accent);
+      display: flex; align-items: center; justify-content: center;
+      font-family: var(--font-display); font-weight: 800; font-size: 1.15rem;
+      color: var(--accent-teal);
+      margin-bottom: 1.5rem;
+      position: relative;
+      box-shadow: 0 0 0 6px var(--bg-deep), 0 0 24px rgba(34, 211, 167, 0.15);
+    }
+    .how-step h4 { font-family: var(--font-display); font-size: 1.08rem; font-weight: 650; color: var(--text-primary); margin-bottom: 0.5rem; }
+    .how-step p { font-size: 0.95rem; color: var(--text-muted); line-height: 1.65; }
+
+    /* STATS / ROI BAND */
+    .stats {
+      background: linear-gradient(135deg, rgba(34, 211, 167, 0.05), rgba(6, 182, 212, 0.04), rgba(59, 130, 246, 0.05));
+      border-top: 1px solid var(--border-subtle);
+      border-bottom: 1px solid var(--border-subtle);
+      padding: 6rem 0;
+      position: relative;
+      overflow: hidden;
+    }
+    .stats::before {
+      content: ''; position: absolute; top: -50%; right: -10%; width: 500px; height: 500px;
+      background: radial-gradient(circle, rgba(34, 211, 167, 0.08), transparent 60%);
+      pointer-events: none;
+    }
+    .stats__inner { position: relative; z-index: 2; display: grid; grid-template-columns: 1.1fr 1fr; gap: 4rem; align-items: center; }
+    .stats__text h2 { font-family: var(--font-display); font-size: clamp(1.8rem, 3.2vw, 2.5rem); font-weight: 700; line-height: 1.2; letter-spacing: -0.02em; color: var(--text-primary); margin-bottom: 1rem; }
+    .stats__text p { font-size: 1.05rem; color: var(--text-secondary); line-height: 1.7; margin-bottom: 2rem; max-width: 480px; }
+    .stats__grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+    .stat-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 18px;
+      padding: 1.75rem;
+      transition: border-color 0.3s ease, transform 0.3s ease;
+    }
+    .stat-card:hover { border-color: var(--border-accent); transform: translateY(-3px); }
+    .stat-card__value { font-family: var(--font-display); font-size: clamp(2rem, 3.5vw, 2.6rem); font-weight: 800; line-height: 1; letter-spacing: -0.03em; background: linear-gradient(135deg, var(--accent-teal), var(--accent-cyan)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; margin-bottom: 0.5rem; }
+    .stat-card__label { font-family: var(--font-display); font-size: 0.88rem; font-weight: 600; color: var(--text-primary); margin-bottom: 0.35rem; }
+    .stat-card__desc { font-size: 0.85rem; color: var(--text-muted); line-height: 1.55; }
+
+    /* TESTIMONIAL */
+    .testimonial { padding: 8rem 0; }
+    .testimonial__card {
+      max-width: 900px; margin: 0 auto;
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 24px;
+      padding: 4rem 3.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+    .testimonial__card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px; background: linear-gradient(90deg, var(--accent-teal), var(--accent-cyan), var(--accent-blue)); }
+    .testimonial__quote-mark { position: absolute; top: 2rem; right: 2.5rem; font-family: var(--font-display); font-size: 8rem; line-height: 1; color: var(--accent-teal); opacity: 0.08; font-weight: 800; user-select: none; }
+    .testimonial__stars { display: flex; gap: 0.3rem; margin-bottom: 1.5rem; color: var(--accent-teal); }
+    .testimonial__stars svg { width: 18px; height: 18px; fill: currentColor; }
+    .testimonial__quote { font-family: var(--font-display); font-size: clamp(1.25rem, 2.2vw, 1.6rem); font-weight: 500; line-height: 1.5; color: var(--text-primary); margin-bottom: 2rem; letter-spacing: -0.01em; }
+    .testimonial__author { display: flex; align-items: center; gap: 1rem; }
+    .testimonial__avatar { width: 48px; height: 48px; border-radius: 50%; background: linear-gradient(135deg, var(--accent-teal), var(--accent-blue)); display: flex; align-items: center; justify-content: center; font-family: var(--font-display); font-weight: 700; color: var(--bg-deep); font-size: 1rem; }
+    .testimonial__name { font-family: var(--font-display); font-size: 0.95rem; font-weight: 650; color: var(--text-primary); }
+    .testimonial__role { font-family: var(--font-display); font-size: 0.82rem; color: var(--text-muted); }
+
+    /* PRICING / APPROACH */
+    .pricing { background: var(--bg-surface); border-top: 1px solid var(--border-subtle); border-bottom: 1px solid var(--border-subtle); }
+    .pricing__header { text-align: center; max-width: 700px; margin: 0 auto 4rem; }
+    .pricing__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1.5rem; max-width: 1100px; margin: 0 auto; }
+    .price-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 20px;
+      padding: 2.5rem 2rem;
+      transition: all 0.35s var(--ease-out-expo);
+      position: relative;
+      display: flex; flex-direction: column;
+    }
+    .price-card:hover { border-color: var(--border-accent); transform: translateY(-4px); }
+    .price-card--featured { border-color: var(--border-accent); background: linear-gradient(180deg, var(--bg-card), rgba(34, 211, 167, 0.04)); }
+    .price-card--featured::before { content: 'Most popular'; position: absolute; top: -12px; left: 50%; transform: translateX(-50%); font-family: var(--font-display); font-size: 0.7rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--bg-deep); background: linear-gradient(135deg, var(--accent-teal), var(--accent-cyan)); padding: 0.35rem 0.9rem; border-radius: 100px; }
+    .price-card__name { font-family: var(--font-display); font-size: 1.05rem; font-weight: 650; color: var(--text-primary); margin-bottom: 0.5rem; }
+    .price-card__desc { font-size: 0.9rem; color: var(--text-muted); line-height: 1.55; margin-bottom: 1.75rem; min-height: 42px; }
+    .price-card__price-row { display: flex; align-items: baseline; gap: 0.65rem; flex-wrap: wrap; margin-bottom: 0.3rem; }
+    .price-card__price { font-family: var(--font-display); font-size: 2.25rem; font-weight: 800; color: var(--text-primary); line-height: 1; letter-spacing: -0.03em; }
+    .price-card__price-was { font-family: var(--font-display); font-size: 1.15rem; font-weight: 600; color: var(--text-muted); letter-spacing: -0.02em; text-decoration: line-through; text-decoration-thickness: 2px; text-decoration-color: rgba(34, 211, 167, 0.55); position: relative; }
+    .price-card__price-tag { display: inline-flex; align-items: center; gap: 0.35rem; font-family: var(--font-display); font-size: 0.62rem; font-weight: 700; letter-spacing: 0.14em; text-transform: uppercase; color: var(--accent-teal); background: rgba(34, 211, 167, 0.1); border: 1px solid rgba(34, 211, 167, 0.28); padding: 0.3rem 0.55rem; border-radius: 100px; margin-bottom: 0.85rem; }
+    .price-card__price-sub { font-family: var(--font-display); font-size: 0.8rem; color: var(--text-muted); margin-bottom: 1.75rem; }
+    .price-card__list { list-style: none; display: flex; flex-direction: column; gap: 0.75rem; margin-bottom: 2rem; flex: 1; }
+    .price-card__list li { display: flex; align-items: flex-start; gap: 0.6rem; font-size: 0.92rem; color: var(--text-secondary); line-height: 1.5; }
+    .price-card__list svg { width: 16px; height: 16px; color: var(--accent-teal); flex-shrink: 0; margin-top: 3px; }
+    .price-card .btn { justify-content: center; width: 100%; }
+
+    /* FAQ */
+    .faq { padding: 8rem 0; }
+    .faq__header { text-align: center; max-width: 700px; margin: 0 auto 4rem; }
+    .faq__list { max-width: 820px; margin: 0 auto; display: flex; flex-direction: column; gap: 0.75rem; }
+    .faq-item {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 14px;
+      overflow: hidden;
+      transition: border-color 0.3s ease;
+    }
+    .faq-item[open] { border-color: var(--border-accent); }
+    .faq-item summary {
+      padding: 1.4rem 1.75rem;
+      font-family: var(--font-display);
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      cursor: pointer;
+      list-style: none;
+      display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+      transition: color 0.2s ease;
+    }
+    .faq-item summary::-webkit-details-marker { display: none; }
+    .faq-item summary:hover { color: var(--accent-teal); }
+    .faq-item summary::after {
+      content: ''; width: 12px; height: 12px;
+      border-right: 2px solid var(--text-muted);
+      border-bottom: 2px solid var(--text-muted);
+      transform: rotate(45deg);
+      transition: transform 0.3s ease, border-color 0.3s ease;
+      flex-shrink: 0;
+    }
+    .faq-item[open] summary::after { transform: rotate(-135deg); border-color: var(--accent-teal); }
+    .faq-item__body { padding: 0 1.75rem 1.5rem; font-size: 0.98rem; color: var(--text-secondary); line-height: 1.7; }
+
+    /* FINAL CTA */
+    .cta { padding: 8rem 0; text-align: center; position: relative; overflow: hidden; }
+    .cta__bg-orb { position: absolute; width: 700px; height: 700px; border-radius: 50%; background: radial-gradient(circle, rgba(34, 211, 167, 0.12), transparent 65%); top: 50%; left: 50%; transform: translate(-50%, -50%); filter: blur(80px); pointer-events: none; }
+    .cta__inner { position: relative; z-index: 2; max-width: 720px; margin: 0 auto; }
+    .cta__title { font-family: var(--font-display); font-size: clamp(2.2rem, 5vw, 3.6rem); font-weight: 800; line-height: 1.1; letter-spacing: -0.03em; color: var(--text-primary); margin-bottom: 1.25rem; }
+    .cta__subtitle { font-size: 1.15rem; color: var(--text-secondary); margin-bottom: 2.5rem; max-width: 540px; margin-left: auto; margin-right: auto; line-height: 1.7; }
+    .cta__actions { display: flex; align-items: center; justify-content: center; gap: 1rem; flex-wrap: wrap; margin-bottom: 1.5rem; }
+    .cta__assurance { font-family: var(--font-display); font-size: 0.85rem; color: var(--text-muted); display: inline-flex; align-items: center; gap: 0.5rem; }
+    .cta__assurance svg { width: 14px; height: 14px; color: var(--accent-teal); }
+
+    /* FOOTER */
+    .footer { border-top: 1px solid var(--border-subtle); padding: 3rem 0; }
+    .footer__inner { display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 1.5rem; }
+    .footer__brand { font-family: var(--font-display); font-weight: 600; font-size: 0.9rem; color: var(--text-muted); }
+    .footer__links { display: flex; gap: 2rem; list-style: none; flex-wrap: wrap; }
+    .footer__link { font-family: var(--font-display); font-size: 0.82rem; font-weight: 500; color: var(--text-muted); transition: color 0.3s ease; cursor: pointer; }
+    .footer__link:hover { color: var(--accent-teal); }
+    .footer__nz { font-family: var(--font-display); font-size: 0.82rem; color: var(--text-muted); display: flex; align-items: center; gap: 0.4rem; }
+
+    /* RESPONSIVE */
+    @media (max-width: 1000px) {
+      .hero__inner { grid-template-columns: 1fr; gap: 3rem; }
+      .hero__visual { max-width: 480px; margin: 0 auto; }
+      .stats__inner { grid-template-columns: 1fr; gap: 2.5rem; }
+      .problem__grid, .solution__grid, .pricing__grid { grid-template-columns: 1fr 1fr; }
+      .how__steps { grid-template-columns: 1fr 1fr; }
+      .how__steps::before { display: none; }
+    }
+    @media (max-width: 720px) {
+      section { padding: 5rem 0; }
+      .hero { padding-top: 9rem; }
+      .nav__links { display: none; }
+      .nav__toggle { display: flex; }
+      .nav__links.open { display: flex; flex-direction: column; position: absolute; top: 100%; left: 0; right: 0; background: rgba(6, 11, 24, 0.97); backdrop-filter: blur(20px); padding: 2rem; gap: 1.5rem; border-bottom: 1px solid var(--border-subtle); }
+      .problem__grid, .solution__grid, .pricing__grid, .stats__grid { grid-template-columns: 1fr; }
+      .how__steps { grid-template-columns: 1fr; }
+      .container { padding: 0 1.25rem; }
+      .testimonial__card { padding: 2.5rem 1.75rem; }
+      .hero-card--floating-1, .hero-card--floating-2 { display: none; }
+      .footer__inner { flex-direction: column; text-align: center; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; }
+    }
+
+    /* noise overlay */
+    body::after {
+      content: ''; position: fixed; inset: 0; pointer-events: none; z-index: 9999; opacity: 0.025;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-repeat: repeat; background-size: 200px 200px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="nav" id="nav" aria-label="Primary">
+    <div class="container nav__inner">
+      <a href="index.html" class="nav__logo">
+        <img src="logo.svg" alt="Flowstate Solutions" class="nav__logo-mark" width="64" height="30">
+        Flowstate
+      </a>
+      <ul class="nav__links" id="navLinks">
+        <li><a href="services.html" class="nav__link">Services</a></li>
+        <li><a href="about.html" class="nav__link">About</a></li>
+        <li><a href="team.html" class="nav__link">Team</a></li>
+        <li><a href="calculator.html" class="nav__link">ROI Calculator</a></li>
+        <li><a href="contact.html" class="nav__cta">Book Free Consult</a></li>
+      </ul>
+      <button class="nav__toggle" id="navToggle" aria-label="Toggle navigation" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <header class="hero">
+    <div class="hero__bg" aria-hidden="true">
+      <div class="hero__grid-lines"></div>
+      <div class="hero__orb hero__orb--1"></div>
+      <div class="hero__orb hero__orb--2"></div>
+    </div>
+
+    <div class="container">
+      <div class="hero__inner">
+        <div class="hero__content">
+          <span class="hero__badge">
+            <span class="hero__badge-dot" aria-hidden="true"></span>
+            Now booking free audits for Q2 2026
+          </span>
+          <h1 class="hero__title">
+            Stop paying for<br>
+            <span class="gradient-text">busy work.</span>
+          </h1>
+          <p class="hero__subtitle">
+            Flowstate helps NZ businesses ditch messy spreadsheets and disconnected tools. We audit, redesign, and automate your workflows so your team can focus on work that actually moves the needle.
+          </p>
+          <div class="hero__actions">
+            <a href="contact.html" class="btn btn--primary">
+              Book a free consult
+              <svg class="btn__arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+            </a>
+            <a href="calculator.html" class="btn btn--ghost">
+              See your ROI in 2 min
+            </a>
+          </div>
+        </div>
+
+        <!-- HERO VISUAL -->
+        <div class="hero__visual" aria-hidden="true">
+          <div class="hero-card hero-card--primary">
+            <div class="hc__header">
+              <div class="hc__title">
+                <span class="hc__title-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="20" x2="12" y2="10"/><line x1="18" y1="20" x2="18" y2="4"/><line x1="6" y1="20" x2="6" y2="16"/></svg>
+                </span>
+                Hours reclaimed / week
+              </div>
+              <span class="hc__pill">Live</span>
+            </div>
+            <div class="hc__metric">28.4h</div>
+            <div class="hc__metric-label">Across 6 automated workflows</div>
+            <span class="hc__delta">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>
+              +34% vs last month
+            </span>
+            <div class="hc__chart">
+              <svg viewBox="0 0 300 70" preserveAspectRatio="none">
+                <defs>
+                  <linearGradient id="chartGrad" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#22D3A7" stop-opacity="0.35"/>
+                    <stop offset="100%" stop-color="#22D3A7" stop-opacity="0"/>
+                  </linearGradient>
+                </defs>
+                <path d="M0,55 C30,50 45,40 70,38 C95,36 115,45 140,38 C165,31 185,22 210,18 C235,14 255,20 280,12 L300,8 L300,70 L0,70 Z" fill="url(#chartGrad)"/>
+                <path d="M0,55 C30,50 45,40 70,38 C95,36 115,45 140,38 C165,31 185,22 210,18 C235,14 255,20 280,12 L300,8" fill="none" stroke="#22D3A7" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+            </div>
+          </div>
+
+          <div class="hero-card hero-card--floating-1">
+            <div class="hc__header">
+              <div class="hc__title">
+                <span class="hc__title-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>
+                </span>
+                Automations
+              </div>
+            </div>
+            <div class="hc__row">
+              <span class="hc__row-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v16H4z"/><path d="M4 10h16M10 4v16"/></svg></span>
+              <span class="hc__row-text"><strong>Invoice sync</strong><br>Xero &rarr; Airtable</span>
+              <span class="hc__row-status">OK</span>
+            </div>
+            <div class="hc__row">
+              <span class="hc__row-icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></span>
+              <span class="hc__row-text"><strong>Lead intake</strong><br>Form &rarr; Slack</span>
+              <span class="hc__row-status">OK</span>
+            </div>
+          </div>
+
+          <div class="hero-card hero-card--floating-2">
+            <div class="hc__header">
+              <div class="hc__title">
+                <span class="hc__title-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                </span>
+                Monthly savings
+              </div>
+              <span class="hc__pill">Q1</span>
+            </div>
+            <div class="hc__metric">$4,820</div>
+            <div class="hc__metric-label">Audited, not estimated</div>
+            <span class="hc__delta">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="18 15 12 9 6 15"/></svg>
+              Recovered in week 2
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- LOGO STRIP -->
+  <section class="logos" aria-label="Tools we work with">
+    <div class="container">
+      <p class="logos__label">Vendor neutral. We work with what you have.</p>
+      <div class="logos__grid">
+        <span class="logo-item">Airtable</span>
+        <span class="logo-item">n8n</span>
+        <span class="logo-item">Xero</span>
+        <span class="logo-item">Zapier</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROBLEM -->
+  <section class="problem">
+    <div class="container">
+      <div class="problem__header reveal">
+        <p class="section-eyebrow" style="justify-content: center;">The real cost</p>
+        <h2 class="section-title">If any of this sounds familiar,<br>you're leaking money.</h2>
+        <p class="section-subtitle" style="margin: 0 auto;">Most NZ SMEs aren't short on ideas. They're short on hours — because half the team is doing work a computer should be doing.</p>
+      </div>
+      <div class="problem__grid">
+        <div class="problem-card reveal reveal-delay-1">
+          <div class="problem-card__icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 3v18"/></svg>
+          </div>
+          <h3>Spreadsheet sprawl</h3>
+          <p>Critical data scattered across seven tabs, three Dropbox folders, and one person's laptop. Nobody knows which one is current.</p>
+        </div>
+        <div class="problem-card reveal reveal-delay-2">
+          <div class="problem-card__icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12a9 9 0 1 1-6.2-8.55"/><polyline points="21 3 21 9 15 9"/></svg>
+          </div>
+          <h3>Copy-paste treadmill</h3>
+          <p>Your best people are spending their mornings moving data from one tool to another. It's boring, error prone, and quietly expensive.</p>
+        </div>
+        <div class="problem-card reveal reveal-delay-3">
+          <div class="problem-card__icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          </div>
+          <h3>Tribal knowledge</h3>
+          <p>Only one person knows how the monthly report actually gets built. When they're on leave, everything grinds to a halt.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SOLUTION -->
+  <section class="solution">
+    <div class="container">
+      <div class="solution__header reveal">
+        <p class="section-eyebrow" style="justify-content: center;">What we do</p>
+        <h2 class="section-title">Three services. One outcome:<br><span class="gradient-text">fewer hours wasted.</span></h2>
+        <p class="section-subtitle" style="margin: 0 auto;">No huge retainers, no ten-person agency overhead. Just clean, honest work that pays for itself.</p>
+      </div>
+      <div class="solution__grid">
+        <div class="solution-card reveal reveal-delay-1">
+          <div class="solution-card__icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          </div>
+          <p class="solution-card__tag">01 — Discovery</p>
+          <h3>Workflow Audit</h3>
+          <p>A health check for how your business really runs on a Monday morning. We map every step, find the leaks, and give you a prioritised plan.</p>
+          <a href="services.html#audit" class="solution-card__link">
+            How it works
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </a>
+        </div>
+        <div class="solution-card reveal reveal-delay-2">
+          <div class="solution-card__icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 1 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+          </div>
+          <p class="solution-card__tag">02 — Consulting</p>
+          <h3>Process Design</h3>
+          <p>We rebuild your workflows from the ground up — simpler, clearer, and documented so your team runs it, not us. No ongoing dependency.</p>
+          <a href="services.html#design" class="solution-card__link">
+            See deliverables
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </a>
+        </div>
+        <div class="solution-card reveal reveal-delay-3">
+          <div class="solution-card__icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/></svg>
+          </div>
+          <p class="solution-card__tag">03 — Automation</p>
+          <h3>Smart Automation</h3>
+          <p>Custom builds in Airtable, n8n, and whatever already lives in your stack. Real ROI tracking, full handover, no black boxes.</p>
+          <a href="services.html#automation" class="solution-card__link">
+            See examples
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HOW IT WORKS -->
+  <section class="how">
+    <div class="container">
+      <div class="how__header reveal">
+        <p class="section-eyebrow">How it works</p>
+        <h2 class="section-title">Four weeks from mess to momentum.</h2>
+        <p class="section-subtitle">You'll always know what's happening, what it costs, and what comes next. No surprises, no scope creep.</p>
+      </div>
+      <div class="how__steps">
+        <div class="how-step reveal reveal-delay-1">
+          <div class="how-step__number">01</div>
+          <h4>Free consult</h4>
+          <p>A 30-min Zoom to understand your business. You'll walk away with useful ideas even if we never work together.</p>
+        </div>
+        <div class="how-step reveal reveal-delay-2">
+          <div class="how-step__number">02</div>
+          <h4>Audit &amp; plan</h4>
+          <p>We map your current workflows, pinpoint the biggest leaks, and give you a plain-English ROI report.</p>
+        </div>
+        <div class="how-step reveal reveal-delay-3">
+          <div class="how-step__number">03</div>
+          <h4>Build &amp; deploy</h4>
+          <p>We redesign and automate what matters most, using your existing tools where possible. You watch it happen live.</p>
+        </div>
+        <div class="how-step reveal reveal-delay-4">
+          <div class="how-step__number">04</div>
+          <h4>Handover</h4>
+          <p>Clear docs, a team walkthrough, and ongoing support if you want it. Everything keeps running without me.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- STATS / ROI -->
+  <section class="stats">
+    <div class="container">
+      <div class="stats__inner">
+        <div class="stats__text reveal">
+          <p class="section-eyebrow">Real numbers</p>
+          <h2>We don't do "strategic value."<br>We do <span class="gradient-text">hours and dollars.</span></h2>
+          <p>Every engagement is measured in time returned and money recovered. If the numbers don't stack up, we won't take the job.</p>
+          <a href="calculator.html" class="btn btn--primary">
+            Calculate your savings
+            <svg class="btn__arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </a>
+        </div>
+        <div class="stats__grid reveal reveal-delay-2">
+          <div class="stat-card">
+            <div class="stat-card__value">22h</div>
+            <div class="stat-card__label">Avg. hours saved / week</div>
+            <div class="stat-card__desc">Across client teams after phase one of automation.</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-card__value">3.4x</div>
+            <div class="stat-card__label">Typical 12-month ROI</div>
+            <div class="stat-card__desc">Measured against total engagement cost, not projections.</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-card__value">&lt; 4 wks</div>
+            <div class="stat-card__label">Audit to first result</div>
+            <div class="stat-card__desc">Most clients see their first automation live inside a month.</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-card__value">$0</div>
+            <div class="stat-card__label">Cost of the first chat</div>
+            <div class="stat-card__desc">If we're not the right fit, we'll tell you on the call.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRICING -->
+  <section class="pricing">
+    <div class="container">
+      <div class="pricing__header reveal">
+        <p class="section-eyebrow" style="justify-content: center;">Ways to start</p>
+        <h2 class="section-title">Pick the right first step.</h2>
+        <p class="section-subtitle" style="margin: 0 auto;">All engagements start with a free consult. These are the three most common ways clients work with us after that.</p>
+      </div>
+      <div class="pricing__grid">
+        <div class="price-card reveal reveal-delay-1">
+          <h3 class="price-card__name">Quick Audit</h3>
+          <p class="price-card__desc">Best if you know something's wrong but can't put your finger on it.</p>
+          <div class="price-card__price-tag">Launch pricing</div>
+          <div class="price-card__price-row">
+            <span class="price-card__price">$599</span>
+            <span class="price-card__price-was" aria-label="Regular price $1,490">$1,490</span>
+          </div>
+          <div class="price-card__price-sub">incl GST &middot; one off</div>
+          <ul class="price-card__list">
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Free 30 minute consult to start</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Full workflow mapping</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Bottleneck &amp; waste report</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Prioritised quick wins list</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>One hour walkthrough call</li>
+          </ul>
+          <a href="contact.html" class="btn btn--ghost">Start with an audit</a>
+        </div>
+        <div class="price-card price-card--featured reveal reveal-delay-2">
+          <h3 class="price-card__name">Design &amp; Build</h3>
+          <p class="price-card__desc">The full fix. Redesigned workflows plus your first automations live.</p>
+          <div class="price-card__price-tag">Launch pricing</div>
+          <div class="price-card__price-row">
+            <span class="price-card__price">$2,495</span>
+            <span class="price-card__price-was" aria-label="Regular price from $6,900">From $6,900</span>
+          </div>
+          <div class="price-card__price-sub">incl GST &middot; scoped per project</div>
+          <ul class="price-card__list">
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Free 30 minute consult to start</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Everything in Quick Audit</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Redesigned core processes</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>2 to 4 custom automations built</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Team training &amp; full handover</li>
+          </ul>
+          <a href="contact.html" class="btn btn--primary">
+            Book a scoping call
+            <svg class="btn__arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </a>
+        </div>
+        <div class="price-card reveal reveal-delay-3">
+          <h3 class="price-card__name">Ongoing Partner</h3>
+          <p class="price-card__desc">For teams that want someone in their corner, monthly.</p>
+          <div class="price-card__price-tag">Launch pricing</div>
+          <div class="price-card__price-row">
+            <span class="price-card__price">$449<span style="font-size: 1.1rem; font-weight: 600; color: var(--text-muted); letter-spacing: 0;">/mo</span></span>
+            <span class="price-card__price-was" aria-label="Regular price $1,200 per month">$1,200/mo</span>
+          </div>
+          <div class="price-card__price-sub">incl GST &middot; monthly, cancel anytime</div>
+          <ul class="price-card__list">
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Free 30 minute consult to start</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Monitoring &amp; upkeep</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>New automations as you grow</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Quarterly workflow reviews</li>
+            <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>Direct email access</li>
+          </ul>
+          <a href="contact.html" class="btn btn--ghost">Ask about partnership</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="faq">
+    <div class="container">
+      <div class="faq__header reveal">
+        <p class="section-eyebrow" style="justify-content: center;">Common questions</p>
+        <h2 class="section-title">Things people ask before they book.</h2>
+      </div>
+      <div class="faq__list">
+        <details class="faq-item reveal reveal-delay-1" open>
+          <summary>Are you really just one person?</summary>
+          <div class="faq-item__body">Yes — and that's a feature, not a bug. You talk directly to the person doing the work. No account managers, no being passed around. One consistent point of contact who knows your business inside out.</div>
+        </details>
+        <details class="faq-item reveal reveal-delay-2">
+          <summary>What if automation isn't the right answer for us?</summary>
+          <div class="faq-item__body">Then I'll say so on the free call. Sometimes the right fix is a better spreadsheet and clearer process — no custom builds needed. My reputation matters more than a quick sale.</div>
+        </details>
+        <details class="faq-item reveal reveal-delay-3">
+          <summary>Do we need specific software?</summary>
+          <div class="faq-item__body">No. We're vendor neutral. We'll work with Airtable, n8n, Notion, HubSpot, Xero, Google Workspace, Microsoft 365 — whatever you already have. If something better exists for your case, we'll flag it, but the choice is yours.</div>
+        </details>
+        <details class="faq-item reveal reveal-delay-4">
+          <summary>How long does it take to see results?</summary>
+          <div class="faq-item__body">Audits wrap inside a week. Most Design &amp; Build engagements have their first automation live within 3–4 weeks. Clients usually recover the cost of the engagement in the first quarter.</div>
+        </details>
+        <details class="faq-item reveal reveal-delay-4">
+          <summary>What happens if you get hit by a bus?</summary>
+          <div class="faq-item__body">Everything we build is documented, owned by you, and runs on platforms you control. If I disappeared tomorrow, your workflows keep running and any competent operator could pick up the docs. That's the standard.</div>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- FINAL CTA -->
+  <section class="cta">
+    <div class="cta__bg-orb" aria-hidden="true"></div>
+    <div class="container">
+      <div class="cta__inner reveal">
+        <h2 class="cta__title">Ready for a workflow that<br><span class="gradient-text">actually flows?</span></h2>
+        <p class="cta__subtitle">Book a free 30-minute consult. No pitch, no pressure — just an honest chat about your business and whether I can help.</p>
+        <div class="cta__actions">
+          <a href="contact.html" class="btn btn--primary">
+            Book a free consult
+            <svg class="btn__arrow" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+          </a>
+          <a href="services.html" class="btn btn--ghost">Browse services</a>
+        </div>
+        <p class="cta__assurance">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="20 6 9 17 4 12"/></svg>
+          Free, no obligation · typically reply within 24h
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container footer__inner">
+      <p class="footer__brand">&copy; 2026 Flowstate Solutions</p>
+      <ul class="footer__links">
+        <li><a href="services.html" class="footer__link">Services</a></li>
+        <li><a href="about.html" class="footer__link">About</a></li>
+        <li><a href="team.html" class="footer__link">Team</a></li>
+        <li><a href="calculator.html" class="footer__link">ROI Calculator</a></li>
+        <li><a href="contact.html" class="footer__link">Contact</a></li>
+      </ul>
+      <p class="footer__nz">Based in New Zealand &#x1F1F3;&#x1F1FF; &middot; Working Remotely</p>
+    </div>
+  </footer>
+
+  <script>
+    // Scroll reveal
+    const revealEls = document.querySelectorAll('.reveal');
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
+    }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+    revealEls.forEach(el => revealObserver.observe(el));
+
+    // Nav scroll state
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 60);
+    }, { passive: true });
+
+    // Mobile nav
+    const navToggle = document.getElementById('navToggle');
+    const navLinks = document.getElementById('navLinks');
+    navToggle.addEventListener('click', () => {
+      const open = navLinks.classList.toggle('open');
+      navToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+    });
+    navLinks.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => {
+        navLinks.classList.remove('open');
+        navToggle.setAttribute('aria-expanded', 'false');
+      });
+    });
+  </script>
+</body>
+</html>
