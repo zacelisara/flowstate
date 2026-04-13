@@ -1,0 +1,1009 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Meet the Team | Flowstate Solutions</title>
+  <meta name="description" content="Meet the Flowstate team. All one of us. Get to know Zac, the solo operator behind the whole thing.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,200..800&family=Crimson+Pro:ital,wght@0,300;0,400;0,500;1,300;1,400&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <style>
+    :root {
+      --bg-deep: #060B18;
+      --bg-surface: #0B1221;
+      --bg-card: #111B2E;
+      --bg-card-hover: #162035;
+      --accent-teal: #22D3A7;
+      --accent-cyan: #06B6D4;
+      --accent-blue: #3B82F6;
+      --accent-glow: rgba(34, 211, 167, 0.15);
+      --text-primary: #F1F5F9;
+      --text-secondary: #B0C4D8;
+      --text-muted: #8494A9;
+      --border-subtle: rgba(148, 163, 184, 0.08);
+      --border-accent: rgba(34, 211, 167, 0.2);
+      --font-display: 'Bricolage Grotesque', sans-serif;
+      --font-body: 'Crimson Pro', Georgia, serif;
+      --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+      --ease-out-quart: cubic-bezier(0.25, 1, 0.5, 1);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; -webkit-font-smoothing: antialiased; -moz-osx-font-smoothing: grayscale; }
+    body { font-family: var(--font-body); font-weight: 400; font-size: 1.125rem; line-height: 1.7; color: var(--text-secondary); background: var(--bg-deep); overflow-x: hidden; }
+    img { max-width: 100%; display: block; }
+    a { color: inherit; text-decoration: none; }
+    button { font: inherit; cursor: pointer; border: none; background: none; }
+    ::selection { background: rgba(34, 211, 167, 0.3); color: var(--text-primary); }
+
+    .container { width: 100%; max-width: 1200px; margin: 0 auto; padding: 0 2rem; }
+    section { position: relative; padding: 8rem 0; }
+
+    .reveal { opacity: 0; transform: translateY(40px); transition: opacity 0.9s var(--ease-out-expo), transform 0.9s var(--ease-out-expo); }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal-delay-1 { transition-delay: 0.1s; }
+    .reveal-delay-2 { transition-delay: 0.2s; }
+    .reveal-delay-3 { transition-delay: 0.3s; }
+    .reveal-delay-4 { transition-delay: 0.4s; }
+
+    /* NAV */
+    .nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; padding: 1.25rem 0; transition: background 0.4s ease, backdrop-filter 0.4s ease, padding 0.4s ease; }
+    .nav.scrolled { background: rgba(6, 11, 24, 0.85); backdrop-filter: blur(20px) saturate(1.2); -webkit-backdrop-filter: blur(20px) saturate(1.2); padding: 0.75rem 0; border-bottom: 1px solid var(--border-subtle); }
+    .nav__inner { display: flex; align-items: center; justify-content: space-between; }
+    .nav__logo { font-family: var(--font-display); font-weight: 700; font-size: 1.35rem; color: var(--text-primary); letter-spacing: -0.02em; display: flex; align-items: center; gap: 0.6rem; }
+    .nav__logo-mark { width: 64px; height: 30px; display: block; flex-shrink: 0; filter: drop-shadow(0 2px 6px rgba(59, 130, 246, 0.25)); }
+    .nav__links { display: flex; align-items: center; gap: 2.5rem; list-style: none; }
+    .nav__link { font-family: var(--font-display); font-size: 0.875rem; font-weight: 500; color: var(--text-secondary); letter-spacing: 0.01em; transition: color 0.3s ease; position: relative; }
+    .nav__link::after { content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 1.5px; background: var(--accent-teal); transition: width 0.3s var(--ease-out-expo); }
+    .nav__link:hover { color: var(--text-primary); }
+    .nav__link:hover::after { width: 100%; }
+    .nav__link--active { color: var(--accent-teal); }
+    .nav__link--active::after { width: 100%; }
+    .nav__cta { font-family: var(--font-display); font-size: 0.85rem; font-weight: 600; color: var(--bg-deep); background: linear-gradient(135deg, var(--accent-teal), var(--accent-cyan)); padding: 0.6rem 1.5rem; border-radius: 100px; transition: transform 0.3s var(--ease-out-expo), box-shadow 0.3s ease; }
+    .nav__cta:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(34, 211, 167, 0.3); }
+    .nav__toggle { display: none; flex-direction: column; gap: 5px; padding: 4px; }
+    .nav__toggle span { display: block; width: 24px; height: 2px; background: var(--text-primary); border-radius: 2px; transition: transform 0.3s ease, opacity 0.3s ease; }
+
+    /* BUTTONS */
+    .btn { font-family: var(--font-display); font-weight: 600; font-size: 0.95rem; padding: 0.9rem 2rem; border-radius: 100px; display: inline-flex; align-items: center; gap: 0.5rem; transition: all 0.35s var(--ease-out-expo); }
+    .btn--primary { color: var(--bg-deep); background: linear-gradient(135deg, var(--accent-teal), var(--accent-cyan)); box-shadow: 0 4px 20px rgba(34, 211, 167, 0.25); }
+    .btn--primary:hover { transform: translateY(-3px); box-shadow: 0 12px 40px rgba(34, 211, 167, 0.35); }
+    .btn--ghost { color: var(--text-primary); border: 1.5px solid var(--border-accent); background: transparent; }
+    .btn--ghost:hover { background: var(--accent-glow); border-color: var(--accent-teal); transform: translateY(-2px); }
+    .btn__arrow { transition: transform 0.3s var(--ease-out-expo); }
+    .btn:hover .btn__arrow { transform: translateX(4px); }
+
+    /* SECTION HEADERS */
+    .section-eyebrow { font-family: var(--font-display); font-size: 0.75rem; font-weight: 600; letter-spacing: 0.15em; text-transform: uppercase; color: var(--accent-teal); margin-bottom: 1rem; display: flex; align-items: center; gap: 0.75rem; }
+    .section-eyebrow::before { content: ''; width: 20px; height: 1.5px; background: var(--accent-teal); }
+    .section-title { font-family: var(--font-display); font-size: clamp(2rem, 4vw, 3.2rem); font-weight: 700; line-height: 1.15; letter-spacing: -0.025em; color: var(--text-primary); margin-bottom: 1.25rem; }
+    .section-subtitle { font-size: 1.15rem; color: var(--text-secondary); max-width: 560px; line-height: 1.7; }
+
+    .gradient-text {
+      background: linear-gradient(135deg, var(--accent-teal) 0%, var(--accent-cyan) 50%, var(--accent-blue) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* PAGE HERO */
+    .page-hero { padding-top: 10rem; padding-bottom: 5rem; position: relative; overflow: hidden; }
+    .page-hero__bg { position: absolute; inset: 0; overflow: hidden; }
+    .page-hero__orb { position: absolute; border-radius: 50%; filter: blur(100px); opacity: 0.3; }
+    .page-hero__orb--1 { width: 500px; height: 500px; background: radial-gradient(circle, var(--accent-teal), transparent 70%); top: -20%; right: -5%; }
+    .page-hero__orb--2 { width: 400px; height: 400px; background: radial-gradient(circle, var(--accent-blue), transparent 70%); bottom: -30%; left: -10%; opacity: 0.15; }
+    .page-hero__content { position: relative; z-index: 2; max-width: 720px; }
+    .page-hero__title {
+      font-family: var(--font-display);
+      font-size: clamp(2.5rem, 5.5vw, 4.5rem);
+      font-weight: 800;
+      line-height: 1.08;
+      letter-spacing: -0.03em;
+      color: var(--text-primary);
+      margin-bottom: 1.5rem;
+      opacity: 0;
+      animation: fadeUp 0.9s var(--ease-out-expo) 0.2s forwards;
+    }
+    .page-hero__subtitle {
+      font-size: 1.2rem;
+      line-height: 1.75;
+      color: var(--text-secondary);
+      max-width: 580px;
+      opacity: 0;
+      animation: fadeUp 0.9s var(--ease-out-expo) 0.4s forwards;
+    }
+
+    /* FOUNDER CARD */
+    .founder {
+      background: var(--bg-surface);
+      border-top: 1px solid var(--border-subtle);
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .founder__grid {
+      display: grid;
+      grid-template-columns: 0.9fr 1.1fr;
+      gap: 4rem;
+      align-items: center;
+    }
+
+    .founder__portrait-wrap {
+      position: relative;
+      border-radius: 24px;
+      overflow: hidden;
+      background: var(--bg-card);
+      border: 1px solid var(--border-accent);
+      box-shadow: 0 30px 80px rgba(0, 0, 0, 0.45);
+      aspect-ratio: 4 / 5;
+    }
+
+    .founder__portrait-wrap::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(180deg, transparent 50%, rgba(6, 11, 24, 0.55) 100%);
+      z-index: 2;
+      pointer-events: none;
+    }
+
+    .founder__portrait-wrap::after {
+      content: '';
+      position: absolute;
+      top: -40%;
+      right: -40%;
+      width: 80%;
+      height: 80%;
+      background: radial-gradient(circle, var(--accent-glow), transparent 60%);
+      filter: blur(60px);
+      pointer-events: none;
+    }
+
+    .founder__portrait {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center 25%;
+      display: block;
+    }
+
+    .founder__badge {
+      position: absolute;
+      bottom: 1.25rem;
+      left: 1.25rem;
+      z-index: 3;
+      background: rgba(6, 11, 24, 0.75);
+      backdrop-filter: blur(14px);
+      border: 1px solid var(--border-accent);
+      border-radius: 100px;
+      padding: 0.55rem 1.1rem;
+      display: flex;
+      align-items: center;
+      gap: 0.55rem;
+      font-family: var(--font-display);
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--text-primary);
+      letter-spacing: 0.02em;
+    }
+
+    .founder__badge-dot {
+      width: 8px; height: 8px; border-radius: 50%;
+      background: var(--accent-teal);
+      box-shadow: 0 0 12px var(--accent-teal);
+      animation: pulse 2.2s ease-in-out infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.5; transform: scale(0.85); }
+    }
+
+    .founder__text p {
+      font-size: 1.05rem;
+      line-height: 1.8;
+      color: var(--text-secondary);
+      margin-bottom: 1.25rem;
+    }
+
+    .founder__text p:last-child { margin-bottom: 0; }
+
+    .founder__name {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 3.8vw, 2.8rem);
+      font-weight: 800;
+      color: var(--text-primary);
+      line-height: 1.1;
+      letter-spacing: -0.02em;
+      margin-bottom: 0.4rem;
+    }
+
+    .founder__role {
+      font-family: var(--font-display);
+      font-size: 0.95rem;
+      font-weight: 500;
+      color: var(--accent-teal);
+      letter-spacing: 0.02em;
+      margin-bottom: 1.75rem;
+      display: flex;
+      align-items: center;
+      gap: 0.65rem;
+      flex-wrap: wrap;
+    }
+
+    .founder__role span {
+      color: var(--text-muted);
+      font-weight: 400;
+    }
+
+    .founder__quick {
+      margin-top: 2rem;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      padding: 1.5rem;
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 16px;
+    }
+
+    .founder__quick-item {
+      text-align: center;
+      position: relative;
+    }
+
+    .founder__quick-item:not(:last-child)::after {
+      content: '';
+      position: absolute;
+      right: -0.5rem;
+      top: 15%;
+      bottom: 15%;
+      width: 1px;
+      background: var(--border-subtle);
+    }
+
+    .founder__quick-num {
+      font-family: var(--font-display);
+      font-size: 1.7rem;
+      font-weight: 800;
+      line-height: 1;
+      background: linear-gradient(135deg, var(--accent-teal), var(--accent-cyan));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 0.3rem;
+    }
+
+    .founder__quick-label {
+      font-family: var(--font-display);
+      font-size: 0.72rem;
+      font-weight: 500;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    /* TEAM JOKE BANNER */
+    .org-joke {
+      padding: 5rem 0;
+    }
+
+    .org-joke__inner {
+      background: linear-gradient(135deg, rgba(34, 211, 167, 0.05), rgba(6, 182, 212, 0.05));
+      border: 1px solid var(--border-accent);
+      border-radius: 24px;
+      padding: 3rem 2rem;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .org-joke__inner::before {
+      content: '';
+      position: absolute;
+      top: -150px;
+      right: -150px;
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, rgba(34, 211, 167, 0.08), transparent 60%);
+      pointer-events: none;
+    }
+
+    .org-joke__label {
+      font-family: var(--font-display);
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--accent-teal);
+      margin-bottom: 2rem;
+    }
+
+    .org-chart {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0;
+      position: relative;
+    }
+
+    .org-node {
+      background: var(--bg-card);
+      border: 1.5px solid var(--border-accent);
+      border-radius: 14px;
+      padding: 1rem 1.5rem;
+      font-family: var(--font-display);
+      color: var(--text-primary);
+      min-width: 200px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.6rem;
+      font-weight: 600;
+      font-size: 0.95rem;
+      position: relative;
+      z-index: 2;
+    }
+
+    .org-node--ceo {
+      background: linear-gradient(135deg, rgba(34, 211, 167, 0.12), rgba(6, 182, 212, 0.08));
+      border-color: var(--accent-teal);
+      box-shadow: 0 10px 40px rgba(34, 211, 167, 0.15);
+    }
+
+    .org-node__emoji { font-size: 1.1rem; }
+
+    .org-line {
+      width: 2px;
+      height: 32px;
+      background: linear-gradient(180deg, var(--accent-teal), transparent);
+      opacity: 0.5;
+    }
+
+    .org-empty {
+      font-family: var(--font-display);
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      font-style: italic;
+      border: 1.5px dashed var(--border-subtle);
+      border-radius: 14px;
+      padding: 0.8rem 1.5rem;
+      min-width: 200px;
+      text-align: center;
+    }
+
+    .org-joke__caption {
+      margin-top: 2rem;
+      font-size: 1.05rem;
+      color: var(--text-muted);
+      max-width: 500px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    .org-joke__caption strong { color: var(--text-primary); font-weight: 500; }
+
+    /* SKILLS */
+    .skills__grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      margin-top: 3rem;
+    }
+
+    .skill-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 16px;
+      padding: 2.25rem;
+      transition: all 0.4s var(--ease-out-expo);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .skill-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 2px;
+      background: linear-gradient(90deg, transparent, var(--accent-teal), transparent);
+      opacity: 0;
+      transition: opacity 0.4s ease;
+    }
+
+    .skill-card:hover {
+      background: var(--bg-card-hover);
+      border-color: var(--border-accent);
+      transform: translateY(-6px);
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+    }
+
+    .skill-card:hover::before { opacity: 1; }
+
+    .skill-card__icon {
+      font-size: 1.8rem;
+      margin-bottom: 1.25rem;
+    }
+
+    .skill-card h3 {
+      font-family: var(--font-display);
+      font-size: 1.15rem;
+      font-weight: 650;
+      color: var(--text-primary);
+      margin-bottom: 0.6rem;
+    }
+
+    .skill-card p {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      line-height: 1.65;
+      margin-bottom: 1rem;
+    }
+
+    .skill-card__tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-top: 0.75rem;
+    }
+
+    .skill-tag {
+      font-family: var(--font-display);
+      font-size: 0.72rem;
+      font-weight: 500;
+      color: var(--text-secondary);
+      background: rgba(34, 211, 167, 0.08);
+      border: 1px solid var(--border-subtle);
+      padding: 0.3rem 0.7rem;
+      border-radius: 100px;
+      letter-spacing: 0.02em;
+    }
+
+    /* CERTIFICATIONS */
+    .certs {
+      background: var(--bg-surface);
+      border-top: 1px solid var(--border-subtle);
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .certs__grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1.25rem;
+      margin-top: 3rem;
+    }
+
+    .cert-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 14px;
+      padding: 1.75rem;
+      display: flex;
+      align-items: flex-start;
+      gap: 1.25rem;
+      transition: border-color 0.3s ease, transform 0.3s ease;
+    }
+
+    .cert-card:hover {
+      border-color: var(--border-accent);
+      transform: translateY(-3px);
+    }
+
+    .cert-card__shield {
+      flex-shrink: 0;
+      width: 56px;
+      height: 56px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, rgba(34, 211, 167, 0.15), rgba(59, 130, 246, 0.1));
+      border: 1px solid var(--border-accent);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+    }
+
+    .cert-card__body h3 {
+      font-family: var(--font-display);
+      font-size: 1.05rem;
+      font-weight: 650;
+      color: var(--text-primary);
+      margin-bottom: 0.3rem;
+    }
+
+    .cert-card__body p {
+      font-size: 0.92rem;
+      color: var(--text-muted);
+      line-height: 1.6;
+    }
+
+    .cert-summary {
+      margin-top: 3rem;
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-left: 3px solid var(--accent-teal);
+      border-radius: 12px;
+      padding: 1.5rem 1.75rem;
+      font-size: 1rem;
+      color: var(--text-secondary);
+      line-height: 1.7;
+    }
+
+    .cert-summary strong { color: var(--text-primary); font-weight: 500; }
+
+    /* OFF THE CLOCK */
+    .offclock__grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+      margin-top: 3rem;
+    }
+
+    .offclock-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 14px;
+      padding: 2rem;
+      transition: border-color 0.3s ease;
+    }
+
+    .offclock-card:hover { border-color: var(--border-accent); }
+
+    .offclock-card__icon { font-size: 1.6rem; margin-bottom: 1rem; }
+
+    .offclock-card h3 {
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      font-weight: 650;
+      color: var(--text-primary);
+      margin-bottom: 0.5rem;
+    }
+
+    .offclock-card p {
+      font-size: 0.95rem;
+      color: var(--text-muted);
+      line-height: 1.65;
+    }
+
+    /* PROMISE BANNER */
+    .promise {
+      padding: 5rem 0;
+      text-align: center;
+      position: relative;
+    }
+
+    .promise__inner {
+      position: relative;
+      background: linear-gradient(135deg, rgba(34, 211, 167, 0.06), rgba(6, 182, 212, 0.06));
+      border: 1px solid var(--border-accent);
+      border-radius: 24px;
+      padding: 4rem 3rem;
+      overflow: hidden;
+    }
+
+    .promise__inner::before {
+      content: '';
+      position: absolute;
+      top: -200px;
+      right: -200px;
+      width: 500px;
+      height: 500px;
+      background: radial-gradient(circle, rgba(34, 211, 167, 0.08), transparent 60%);
+      pointer-events: none;
+    }
+
+    .promise__quote {
+      font-family: var(--font-display);
+      font-size: clamp(1.5rem, 3vw, 2.2rem);
+      font-weight: 600;
+      line-height: 1.35;
+      color: var(--text-primary);
+      max-width: 780px;
+      margin: 0 auto 1rem;
+      position: relative;
+    }
+
+    .promise__sub {
+      font-size: 1.05rem;
+      color: var(--text-muted);
+    }
+
+    /* CTA */
+    .cta { padding: 8rem 0; text-align: center; position: relative; overflow: hidden; }
+    .cta__bg-orb { position: absolute; width: 700px; height: 700px; border-radius: 50%; background: radial-gradient(circle, rgba(34, 211, 167, 0.12), transparent 65%); top: 50%; left: 50%; transform: translate(-50%, -50%); filter: blur(80px); pointer-events: none; }
+    .cta .section-title { font-size: clamp(2.2rem, 5vw, 3.8rem); max-width: 700px; margin: 0 auto 1rem; }
+    .cta .section-subtitle { max-width: 500px; margin: 0 auto 2.5rem; text-align: center; }
+    .cta__actions { display: flex; align-items: center; justify-content: center; gap: 1rem; flex-wrap: wrap; position: relative; z-index: 2; }
+
+    /* FOOTER */
+    .footer { border-top: 1px solid var(--border-subtle); padding: 3rem 0; }
+    .footer__inner { display: flex; align-items: center; justify-content: space-between; }
+    .footer__brand { font-family: var(--font-display); font-weight: 600; font-size: 0.9rem; color: var(--text-muted); }
+    .footer__links { display: flex; gap: 2rem; list-style: none; }
+    .footer__link { font-family: var(--font-display); font-size: 0.8rem; font-weight: 500; color: var(--text-muted); transition: color 0.3s ease; }
+    .footer__link:hover { color: var(--accent-teal); }
+    .footer__nz { font-family: var(--font-display); font-size: 0.8rem; color: var(--text-muted); display: flex; align-items: center; gap: 0.4rem; }
+
+    /* RESPONSIVE */
+    @media (max-width: 900px) {
+      .founder__grid { grid-template-columns: 1fr; gap: 2.5rem; }
+      .founder__portrait-wrap { max-width: 420px; margin: 0 auto; aspect-ratio: 4 / 5; }
+      .skills__grid { grid-template-columns: 1fr; }
+      .certs__grid { grid-template-columns: 1fr; }
+      .offclock__grid { grid-template-columns: 1fr; }
+      .nav__links { display: none; }
+      .nav__toggle { display: flex; }
+      .nav__links.open {
+        display: flex; flex-direction: column; position: absolute; top: 100%; left: 0; right: 0;
+        background: rgba(6, 11, 24, 0.97); backdrop-filter: blur(20px); padding: 2rem; gap: 1.5rem;
+        border-bottom: 1px solid var(--border-subtle);
+      }
+    }
+
+    @media (max-width: 600px) {
+      section { padding: 5rem 0; }
+      .container { padding: 0 1.25rem; }
+      .page-hero { padding-top: 8rem; }
+      .promise__inner { padding: 2.5rem 1.5rem; }
+      .footer__inner { flex-direction: column; gap: 1.5rem; text-align: center; }
+      .founder__quick { grid-template-columns: repeat(3, 1fr); padding: 1rem; gap: 0.5rem; }
+      .founder__quick-num { font-size: 1.4rem; }
+    }
+
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 9999;
+      opacity: 0.025;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-repeat: repeat;
+      background-size: 200px 200px;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="nav" id="nav">
+    <div class="container nav__inner">
+      <a href="index.html" class="nav__logo">
+        <img src="logo.svg" alt="" class="nav__logo-mark" width="64" height="30">
+        Flowstate
+      </a>
+      <ul class="nav__links" id="navLinks">
+        <li><a href="services.html" class="nav__link">Services</a></li>
+        <li><a href="about.html" class="nav__link">About</a></li>
+        <li><a href="team.html" class="nav__link nav__link--active">Team</a></li>
+        <li><a href="calculator.html" class="nav__link">ROI Calculator</a></li>
+        <li><a href="contact.html" class="nav__cta">Get in Touch</a></li>
+      </ul>
+      <button class="nav__toggle" id="navToggle" aria-label="Toggle navigation">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- PAGE HERO -->
+  <section class="page-hero">
+    <div class="page-hero__bg">
+      <div class="page-hero__orb page-hero__orb--1"></div>
+      <div class="page-hero__orb page-hero__orb--2"></div>
+    </div>
+    <div class="container page-hero__content">
+      <p class="section-eyebrow" style="opacity:0; animation: fadeUp 0.8s var(--ease-out-expo) 0.1s forwards;">Meet the Team</p>
+      <h1 class="page-hero__title">
+        The whole team.<br>
+        <span class="gradient-text">All one of us.</span>
+      </h1>
+      <p class="page-hero__subtitle">
+        Flowstate is a solo operation, for now at least. No departments, no layers, no one to pass the buck to. Just one person who picks up the phone and actually does the work.
+      </p>
+    </div>
+  </section>
+
+  <!-- FOUNDER -->
+  <section class="founder">
+    <div class="container">
+      <div class="founder__grid">
+        <div class="founder__portrait-wrap reveal">
+          <img src="ceo_portrait.png" alt="Zac Elisara, founder of Flowstate Solutions" class="founder__portrait" loading="lazy" />
+          <div class="founder__badge">
+            <span class="founder__badge-dot"></span>
+            Available in NZ hours
+          </div>
+        </div>
+        <div class="founder__text reveal reveal-delay-2">
+          <p class="section-eyebrow">The Founder</p>
+          <h2 class="founder__name">Zac Elisara</h2>
+          <p class="founder__role">Founder &amp; Everything Else <span>&middot; Based in New Zealand</span></p>
+          <p>
+            By day I work as a Systems Administrator and Business Systems Manager for a non profit foster care agency here in NZ. My job there is to look at how things are done, figure out what is slow, broken, or just painful, and quietly replace it with something better.
+          </p>
+          <p>
+            Flowstate is what happens when I do that same work for other businesses. I noticed a lot of good companies stuck in old workflows simply because nobody has sat down with them and mapped it out. So I started doing exactly that.
+          </p>
+          <p>
+            I am not a career consultant with a script. I am someone who genuinely enjoys fixing messy systems, and I would rather tell you the honest answer than sell you something you do not need.
+          </p>
+
+          <div class="founder__quick">
+            <div class="founder__quick-item">
+              <div class="founder__quick-num">1</div>
+              <div class="founder__quick-label">Founder</div>
+            </div>
+            <div class="founder__quick-item">
+              <div class="founder__quick-num">0</div>
+              <div class="founder__quick-label">Middlemen</div>
+            </div>
+            <div class="founder__quick-item">
+              <div class="founder__quick-num">4</div>
+              <div class="founder__quick-label">Certifications</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ORG CHART JOKE -->
+  <section class="org-joke">
+    <div class="container">
+      <div class="org-joke__inner reveal">
+        <p class="org-joke__label">The Official Org Chart</p>
+        <div class="org-chart">
+          <div class="org-node org-node--ceo">
+            <span class="org-node__emoji">&#x1F451;</span>
+            Zac &middot; CEO
+          </div>
+          <div class="org-line"></div>
+          <div class="org-node">
+            <span class="org-node__emoji">&#x1F4BC;</span>
+            Zac &middot; Operations
+          </div>
+          <div class="org-line"></div>
+          <div class="org-node">
+            <span class="org-node__emoji">&#x1F6E0;&#xFE0F;</span>
+            Zac &middot; Automations
+          </div>
+          <div class="org-line"></div>
+          <div class="org-node">
+            <span class="org-node__emoji">&#x2615;</span>
+            Zac &middot; Coffee
+          </div>
+          <div class="org-line"></div>
+          <div class="org-empty">your name could go here one day</div>
+        </div>
+        <p class="org-joke__caption">
+          Turns out the commute between roles is pretty short. <strong>You always get me on the call.</strong> No handoffs, no losing context, no waiting on a reply from someone I have to chase.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section class="skills">
+    <div class="container">
+      <div class="reveal">
+        <p class="section-eyebrow">What I Bring to the Table</p>
+        <h2 class="section-title">The stuff I actually do, all day.</h2>
+        <p class="section-subtitle">Not a brochure list. These are the skills I use in my day job and on every Flowstate project.</p>
+      </div>
+      <div class="skills__grid">
+        <div class="skill-card reveal reveal-delay-1">
+          <div class="skill-card__icon">&#x1F9E9;</div>
+          <h3>Systems &amp; Process Design</h3>
+          <p>Years of auditing legacy workflows and replacing them with something that actually fits how your team works. I look for the bottlenecks most people stop noticing.</p>
+          <div class="skill-card__tags">
+            <span class="skill-tag">Workflow mapping</span>
+            <span class="skill-tag">Process audits</span>
+            <span class="skill-tag">SOPs</span>
+          </div>
+        </div>
+        <div class="skill-card reveal reveal-delay-2">
+          <div class="skill-card__icon">&#x26A1;</div>
+          <h3>Automation &amp; AI</h3>
+          <p>Taking the repetitive admin work off your plate using tools like n8n, Airtable, and AI powered assistants. The boring stuff runs itself and you get your evenings back.</p>
+          <div class="skill-card__tags">
+            <span class="skill-tag">n8n</span>
+            <span class="skill-tag">Airtable</span>
+            <span class="skill-tag">AI workflows</span>
+          </div>
+        </div>
+        <div class="skill-card reveal reveal-delay-3">
+          <div class="skill-card__icon">&#x1F512;</div>
+          <h3>Cyber Security Mindset</h3>
+          <p>Every system I build is designed with security in mind from day one. Your data, your client data, and your credentials all stay where they should.</p>
+          <div class="skill-card__tags">
+            <span class="skill-tag">4x certified</span>
+            <span class="skill-tag">Access control</span>
+            <span class="skill-tag">Safe defaults</span>
+          </div>
+        </div>
+        <div class="skill-card reveal reveal-delay-1">
+          <div class="skill-card__icon">&#x1F4CA;</div>
+          <h3>Data &amp; Admin Systems</h3>
+          <p>Messy spreadsheets, disconnected tools, copy paste loops between apps. I rebuild these into a single source of truth your team can actually trust.</p>
+          <div class="skill-card__tags">
+            <span class="skill-tag">Airtable bases</span>
+            <span class="skill-tag">Dashboards</span>
+            <span class="skill-tag">Reporting</span>
+          </div>
+        </div>
+        <div class="skill-card reveal reveal-delay-2">
+          <div class="skill-card__icon">&#x1F501;</div>
+          <h3>Legacy to Modern Migrations</h3>
+          <p>Moving businesses off old, brittle systems without losing data or breaking things in the process. I have done this for a non profit and I can do it for you.</p>
+          <div class="skill-card__tags">
+            <span class="skill-tag">Migrations</span>
+            <span class="skill-tag">Handover docs</span>
+            <span class="skill-tag">Staff training</span>
+          </div>
+        </div>
+        <div class="skill-card reveal reveal-delay-3">
+          <div class="skill-card__icon">&#x1F91D;</div>
+          <h3>Plain English Translation</h3>
+          <p>One of the most useful skills I have picked up. Turning technical jargon into language your whole team understands, so nobody feels stupid in the meeting.</p>
+          <div class="skill-card__tags">
+            <span class="skill-tag">Documentation</span>
+            <span class="skill-tag">Training</span>
+            <span class="skill-tag">Plain speak</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CERTIFICATIONS -->
+  <section class="certs">
+    <div class="container">
+      <div class="reveal">
+        <p class="section-eyebrow">Credentials</p>
+        <h2 class="section-title">Four Cyber Security certifications.<br>One very stubborn study habit.</h2>
+        <p class="section-subtitle">I spent a long stretch studying cyber security after hours, because I wanted every system I build to be secure by default, not as an afterthought.</p>
+      </div>
+      <div class="certs__grid">
+        <div class="cert-card reveal reveal-delay-1">
+          <div class="cert-card__shield">&#x1F6E1;&#xFE0F;</div>
+          <div class="cert-card__body">
+            <h3>Cyber Security Foundations</h3>
+            <p>Core principles of information security, threat models, and risk. The baseline every builder should know.</p>
+          </div>
+        </div>
+        <div class="cert-card reveal reveal-delay-2">
+          <div class="cert-card__shield">&#x1F50D;</div>
+          <div class="cert-card__body">
+            <h3>Network &amp; Systems Security</h3>
+            <p>How data moves, where it leaks, and how to lock it down without making your team hate their logins.</p>
+          </div>
+        </div>
+        <div class="cert-card reveal reveal-delay-3">
+          <div class="cert-card__shield">&#x1F9EA;</div>
+          <div class="cert-card__body">
+            <h3>Threat Analysis &amp; Response</h3>
+            <p>Spotting the early signs of an issue before it becomes an incident, and knowing exactly what to do when it does.</p>
+          </div>
+        </div>
+        <div class="cert-card reveal reveal-delay-4">
+          <div class="cert-card__shield">&#x1F4DC;</div>
+          <div class="cert-card__body">
+            <h3>Governance &amp; Compliance</h3>
+            <p>Policies, access control, and keeping audit trails that make compliance reviews feel boring in the best way.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="cert-summary reveal">
+        <strong>Plain English version:</strong> when I plug new tools into your business, I know how to do it without leaving a back door open. Automation without security is just a faster way to get into trouble.
+      </div>
+    </div>
+  </section>
+
+  <!-- OFF THE CLOCK -->
+  <section class="offclock">
+    <div class="container">
+      <div class="reveal">
+        <p class="section-eyebrow">Off the Clock</p>
+        <h2 class="section-title">The human behind the laptop.</h2>
+        <p class="section-subtitle">Because you are not hiring a logo. You are hiring a person. Here is what that person is actually like.</p>
+      </div>
+      <div class="offclock__grid">
+        <div class="offclock-card reveal reveal-delay-1">
+          <div class="offclock-card__icon">&#x1F3A3;</div>
+          <h3>On the Water</h3>
+          <p>Fishing is my reset button. Most good ideas I have about automations have turned up somewhere between casting out and the first bite.</p>
+        </div>
+        <div class="offclock-card reveal reveal-delay-2">
+          <div class="offclock-card__icon">&#x1F465;</div>
+          <h3>Family &amp; Mates</h3>
+          <p>Weekends are for the people I actually like. If automating your business gives me more time to be around mine, that is the whole point.</p>
+        </div>
+        <div class="offclock-card reveal reveal-delay-3">
+          <div class="offclock-card__icon">&#x1F4DA;</div>
+          <h3>Always Learning</h3>
+          <p>New tool, new cert, new way of doing something. I like tinkering with things long before anyone pays me to, which usually means I already know the tool you are curious about.</p>
+        </div>
+        <div class="offclock-card reveal reveal-delay-4">
+          <div class="offclock-card__icon">&#x1F9E5;</div>
+          <h3>Running a Brand on the Side</h3>
+          <p>I also run a small clothing brand, which means I understand what it feels like to wear every hat in a business. Order admin, stock, marketing, the lot. It keeps me honest about what small businesses actually deal with.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROMISE BANNER -->
+  <section class="promise">
+    <div class="container">
+      <div class="promise__inner reveal">
+        <p class="promise__quote">
+          &ldquo;Nothing changes if <span class="gradient-text">nothing changes.</span> That is the reason I started doing this.&rdquo;
+        </p>
+        <p class="promise__sub">A line I live by. Happy to help you live it too.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="cta">
+    <div class="cta__bg-orb"></div>
+    <div class="container">
+      <div class="reveal">
+        <p class="section-eyebrow" style="justify-content: center;">Say Hi</p>
+        <h2 class="section-title" style="text-align: center;">Want to meet the team<br>in person? Well. Me.</h2>
+        <p class="section-subtitle">Book a free chat. The whole team will be there, ready to listen and help you work out whether we are a good fit.</p>
+      </div>
+      <div class="cta__actions reveal reveal-delay-2">
+        <a href="contact.html" class="btn btn--primary">
+          Book a Free Consult
+          <span class="btn__arrow">&rarr;</span>
+        </a>
+        <a href="services.html" class="btn btn--ghost">
+          See What I Do
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container footer__inner">
+      <p class="footer__brand">&copy; 2026 Flowstate Solutions</p>
+      <ul class="footer__links">
+        <li><a href="services.html" class="footer__link">Services</a></li>
+        <li><a href="about.html" class="footer__link">About</a></li>
+        <li><a href="team.html" class="footer__link">Team</a></li>
+        <li><a href="calculator.html" class="footer__link">ROI Calculator</a></li>
+        <li><a href="contact.html" class="footer__link">Contact</a></li>
+      </ul>
+      <p class="footer__nz">Based in New Zealand &#x1F1F3;&#x1F1FF; &middot; Working Remotely</p>
+    </div>
+  </footer>
+
+  <script>
+    const revealEls = document.querySelectorAll('.reveal');
+    const revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
+    }, { threshold: 0.15, rootMargin: '0px 0px -40px 0px' });
+    revealEls.forEach(el => revealObserver.observe(el));
+
+    const nav = document.getElementById('nav');
+    window.addEventListener('scroll', () => {
+      nav.classList.toggle('scrolled', window.scrollY > 60);
+    }, { passive: true });
+
+    const navToggle = document.getElementById('navToggle');
+    const navLinks = document.getElementById('navLinks');
+    navToggle.addEventListener('click', () => navLinks.classList.toggle('open'));
+    navLinks.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => navLinks.classList.remove('open'));
+    });
+  </script>
+</body>
+</html>
